@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🗺️ Map Concerts · 现场档案馆
+# Map Concerts · 现场档案馆
 
 **Community-driven Interactive World Atlas of Live Concerts, Tours, and Performance Archives**
 
@@ -14,29 +14,29 @@
 
 ---
 
-## 📌 Overview
+## Overview
 
 **Map Concerts (现场档案馆)** is an open-source, interactive web atlas that documents live musical performances around the world.
 It aggregates concert tours, music festivals, fan meetings, and acoustic sessions into a responsive geographic map with video links, setlists, and song timestamps.
 
-- 🌐 **Live Demo**: [https://map-concerts.com](https://map-concerts.com)
+- **Live Demo**: [https://map-concerts.com](https://map-concerts.com)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- **🗺️ Interactive Macro World Map**: Clustered city markers show live performance history; clicking a city opens a rich modal with setlists and video embeds.
-- **🎬 Video Integration & Song Timestamps**: Seamlessly parses Bilibili and YouTube links with automated cover backfill, providing one-click song-by-song setlist navigation (`jumpUrl`).
-- **🤝 Community Contribution & Draft Review**:
+- **Interactive World Map**: Clustered city markers show live performance history; clicking a city opens a rich modal with setlists and video embeds.
+- **Video Integration & Song Timestamps**: Seamlessly parses Bilibili and YouTube links with automated cover backfill, providing one-click song-by-song setlist navigation.
+- **Community Contribution & Review**:
   - Built-in user authentication (PBKDF2-SHA256 salted hashes, zero external OAuth/auth dependencies).
   - Submit new shows, add missing links, or propose revisions to existing events through an edit-draft merge workflow.
   - Interactive reaction emojis (🐐 GOAT, 💀 Killed it, ❤️ Moved, 👎 Flopped, ✅ Attended, ❌ Streamed) and favorites collection.
-- **🛡️ Moderation Dashboard**: Visual administrative review system (`/review`) with draft diffs and audit controls.
-- **⚡ Ultra-lightweight Full-Stack Architecture**: Runs natively on Cloudflare Workers + D1 database + static assets, with zero client bundling frameworks and sub-second cold starts.
+- **Moderation Dashboard**: Visual administrative review system (`/review`) with draft diffs and audit controls.
+- **Ultra-lightweight Full-Stack Architecture**: Runs natively on Cloudflare Workers + D1 database + static assets, with zero client bundling frameworks and sub-second cold starts.
 
 ---
 
-## 🚀 Quick Start (Local Development)
+## Quick Start (Local Development)
 
 All you need is [Wrangler](https://developers.cloudflare.com/workers/wrangler/):
 
@@ -51,40 +51,12 @@ npx wrangler dev
 
 Visit `http://localhost:8787` in your browser.
 
-> 💡 **Initial Administrator**:
+> **Initial Administrator**:
 > Registering an account with the username specified in `wrangler.toml` (`BOOTSTRAP_ADMIN`, default `admin`) will automatically grant administrator privileges on first creation, unlocking `/review`.
 
 ---
 
-## 🛠️ Project Structure
-
-```
-map-concerts/
-├── public/                 # Static frontend assets served by Worker Assets
-│   ├── index.html          # Homepage: artist card directory
-│   ├── singer.html         # Artist map view
-│   ├── submit.html         # Concert submission / revision form
-│   ├── my-submissions.html # User submission management
-│   ├── profile.html        # Account & statistics center
-│   ├── review.html         # Admin review dashboard
-│   ├── css/style.css       # Design system styles
-│   └── js/                 # Map engine, modal, setlist, and modules
-├── src/                    # Cloudflare Worker API backend
-│   ├── index.js            # Worker router & security headers
-│   ├── db.js               # D1 ensureSchema & utilities
-│   ├── auth.js             # User authentication & CSRF protection
-│   ├── performances.js     # Public performance queries & filtering
-│   ├── submissions.js      # User submissions & drafts
-│   ├── review.js           # Admin review & draft-merging
-│   └── video-meta.js       # Video metadata & cover proxies
-├── wrangler.toml           # Cloudflare Worker / D1 configuration
-├── schema.sql              # Database DDL reference
-└── seed.sql                # Sample mock concert data
-```
-
----
-
-## ☁️ Production Deployment
+## Production Deployment
 
 1. **Create Cloudflare D1 Database**:
    ```bash
@@ -104,6 +76,6 @@ map-concerts/
 
 ---
 
-## 📄 License
+## License
 
 Licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](./LICENSE) License.
