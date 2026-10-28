@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的提交 · 现场档案馆</title>
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<main class="wrap page">
+  <h2 class="page-title">我的提交</h2>
+  <p class="page-hint">待审核/已驳回可编辑,已通过可"建议修改";任何状态都可删除(进回收站,7 天内可恢复或彻底删,逾期自动清除)。</p>
+  <div id="auth-gate"></div>
+
+  <div id="mine-controls" hidden>
+    <!-- 视图切换: 进行中 / 回收站 -->
+    <div class="mine-views" id="mine-views">
+      <button type="button" class="mine-tab active" data-view="list">进行中</button>
+      <button type="button" class="mine-tab" data-view="trash">回收站</button>
+    </div>
+
+    <!-- 审核状态分段(仅进行中展示,仿照 GeoGuide status-tabs) -->
+    <div class="mine-status-row" id="mine-status-row">
+      <button type="button" class="mine-status-tab active" data-status="all">
+        <span>全部</span>
+        <span class="mine-status-tab__badge" id="badge-status-all"></span>
+      </button>
+      <button type="button" class="mine-status-tab" data-status="pending">
+        <span>待审核</span>
+        <span class="mine-status-tab__badge" id="badge-status-pending"></span>
+      </button>
+      <button type="button" class="mine-status-tab" data-status="approved">
+        <span>已通过</span>
+        <span class="mine-status-tab__badge" id="badge-status-approved"></span>
+      </button>
+      <button type="button" class="mine-status-tab" data-status="rejected">
+        <span>已驳回</span>
+        <span class="mine-status-tab__badge" id="badge-status-rejected"></span>
+      </button>
+    </div>
+
+    <!-- 筛选工具栏(排序 + 歌手下拉 + 简易放大镜搜索 + 计数统计) -->
+    <div class="my-filter-row" id="my-filter-row">
+      <button type="button" class="sort-toggle" id="sort-toggle" title="按演出年份排序">
+        <span id="sort-label">年份倒序</span> <span class="sort-toggle__arrow" id="sort-arrow">▾</span>
+      </button>
+
+      <div class="filter-dropdown" id="singer-filter">
+        <button type="button" class="filter-dropdown__btn" id="singer-filter-btn" aria-haspopup="true" aria-expanded="false" title="按歌手筛选">
+          <span id="singer-filter-label">全部歌手</span>
+          <span class="filter-dropdown__arrow">▾</span>
+        </button>
+        <div class="filter-dropdown__menu" id="singer-filter-menu" hidden></div>
+      </div>
+
+      <!-- 搜索:复用 profile 语汇 (放大镜 + 无底无框透明输入 + 圆形 × 清空) -->
+      <div class="searchbox" id="mine-searchbox">
+        <span class="searchbox__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/></svg></span>
+        <input id="search-input" class="searchbox__input" type="text" autocomplete="off" spellcheck="false" placeholder="搜索标题 / 城市 / 歌手 / 曲目" aria-label="搜索我的提交">
+        <button type="button" id="search-clear" class="searchbox__clear" aria-label="清空搜索" title="清空" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+
+      <div class="mine-count" id="mine-count"></div>
+    </div>
+  </div>
+
+  <div id="mine-list" hidden></div>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/dialog.js"></script>
+<script src="/js/my-submissions.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+</html>

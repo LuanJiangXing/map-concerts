@@ -1,0 +1,36 @@
+-- 种子数据:由 data/performances.js 迁移(占位,待真实数据替换)
+INSERT INTO performances (id, singer, year, date, title, type, venue, city, lat, lng, verified, note) VALUES
+  ('dt-sp2-2024-shanghai', 'david-tao', 2024, '2024-12', 'Soul Power II 世界巡回演唱会 · 上海站', '演唱会', '上海(占位)', '上海', 31.2304, 121.4737, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-beijing', 'david-tao', 2025, '2025-05', 'Soul Power II 世界巡回演唱会 · 北京站', '演唱会', '北京(占位)', '北京', 39.904, 116.407, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-nanjing', 'david-tao', 2025, '2025-03', 'Soul Power II 世界巡回演唱会 · 南京站', '演唱会', '南京(占位)', '南京', 32.0603, 118.7969, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-guangzhou', 'david-tao', 2025, '2025-04', 'Soul Power II 世界巡回演唱会 · 广州站', '演唱会', '广州(占位)', '广州', 23.1291, 113.2644, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-shenzhen', 'david-tao', 2025, '2025-06', 'Soul Power II 世界巡回演唱会 · 深圳站', '演唱会', '深圳(占位)', '深圳', 22.5431, 114.0579, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-chengdu', 'david-tao', 2025, '2025-07', 'Soul Power II 世界巡回演唱会 · 成都站', '演唱会', '成都(占位)', '成都', 30.5728, 104.0668, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-wuhan', 'david-tao', 2025, '2025-08', 'Soul Power II 世界巡回演唱会 · 武汉站', '演唱会', '武汉(占位)', '武汉', 30.5928, 114.3055, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-xian', 'david-tao', 2025, '2025-09', 'Soul Power II 世界巡回演唱会 · 西安站', '演唱会', '西安(占位)', '西安', 34.3416, 108.9398, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-hangzhou', 'david-tao', 2025, '2025-10', 'Soul Power II 世界巡回演唱会 · 杭州站', '演唱会', '杭州(占位)', '杭州', 30.2741, 120.1551, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp-2003-taipei', 'david-tao', 2003, '2003', 'Soul Power 巡回演唱会 · 台北站', '演唱会', '台北(占位)', '台北', 25.033, 121.5654, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp-2004-hk', 'david-tao', 2004, '2004', 'Soul Power 巡回演唱会 · 香港站', '演唱会', '香港(占位)', '香港', 22.3193, 114.1694, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp-2004-singapore', 'david-tao', 2004, '2004', 'Soul Power 巡回演唱会 · 新加坡站', '演唱会', '新加坡(占位)', '新加坡', 1.3521, 103.8198, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-sydney', 'david-tao', 2025, '2025-11', 'Soul Power II 世界巡回演唱会 · 悉尼站', '演唱会', '悉尼(占位)', '悉尼', -33.8688, 151.2093, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-la', 'david-tao', 2025, '2025-12', 'Soul Power II 世界巡回演唱会 · 洛杉矶站', '演唱会', '洛杉矶(占位)', '洛杉矶', 34.0522, -118.2437, 0, '占位:日期 / 场馆待核实'),
+  ('dt-sp2-2025-tokyo', 'david-tao', 2025, '2025-11', 'Soul Power II 世界巡回演唱会 · 东京站', '演唱会', '东京(占位)', '东京', 35.6762, 139.6503, 0, '占位:日期 / 场馆待核实'),
+  ('dt-2025-sz-fest', 'david-tao', 2025, '2025-06', '深圳 · 某音乐节(占位)', '音乐节', '深圳(占位)', '深圳', 22.5431, 114.0579, 0, '占位:演出形式 / 日期待核实');
+
+INSERT INTO links (performance_id, label, url, placeholder) VALUES
+  ('dt-sp2-2024-shanghai', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-beijing', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-nanjing', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-guangzhou', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-shenzhen', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-chengdu', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-wuhan', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-xian', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-hangzhou', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp-2003-taipei', '经典片段 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp-2004-hk', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp-2004-singapore', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-sydney', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-la', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-sp2-2025-tokyo', '全场录像 · B站(示例)', 'https://www.bilibili.com/', 1),
+  ('dt-2025-sz-fest', '片段合集 · B站(示例)', 'https://www.bilibili.com/', 1);

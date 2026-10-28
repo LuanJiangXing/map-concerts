@@ -1,0 +1,3975 @@
+/* ============================================================
+   陶喆 · 现场档案馆 —— 样式(浅色暖调,零外部依赖,大字版)
+   ============================================================ */
+
+/* 视觉令牌真源见 /css/tokens.css(须在本文件之前加载);本文件只消费 var(--…),不再定义常量。 */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  font-size: var(--fs-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 品牌、大标题、演出标题、歌手名、徽标统一采用高品质现代几何体(英文自然舒展 + 中文平滑回退) */
+.brand-zh,
+.page-title,
+.masthead__name,
+.masthead__en,
+.directory__title,
+.directory__row-name,
+.perf-title,
+.list-card__title,
+.fav-title,
+.badge.type,
+.badge-type,
+.modal-card h2,
+.modal-card h3 {
+  font-family: var(--font-display);
+}
+.brand-en {
+  font-family: "Syne", var(--font-display);
+}
+
+.perf-date,
+.list-card__year,
+.directory__row-count,
+.modal-meta,
+.yearbar__num,
+.yearbar__range,
+.yearbar__summary,
+.status,
+#f-year, #f-date, #f-lat, #f-lng { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- 头部 ---------- */
+.site-head {
+  padding: 26px 0 var(--sp-4);
+  /* S4a:移除径向光晕(radial-halo)—— 与地图争视觉重量,且是「AI 味」来源之一 */
+  background: var(--bg);
+}
+
+.brand-zh {
+  margin: 0;
+  font-size: var(--fs-3xl);
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.brand-en {
+  margin: 3px 0 0;
+  font-size: var(--fs-base);
+  letter-spacing: 0.36em;
+  color: var(--muted);
+}
+
+/* ---------- 首页现场统计行 (Live Counter, 仿照 GeoGuide Hero Stats) ---------- */
+.hero-stats {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.hero-stats[hidden] {
+  display: none !important;
+}
+.hero-stats__count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.hero-stats__num {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--accent);
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.hero-stats__label {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.hero-stats__dot {
+  color: var(--muted);
+  opacity: 0.4;
+  font-size: var(--fs-base);
+  user-select: none;
+}
+.hero-stats__avatars {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: var(--r-pill);
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+.hero-stats__avatars:hover {
+  opacity: 0.9;
+}
+.hero-stats__avatars:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.hero-stats__avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+  margin-left: -7px;
+  border: 2px solid var(--panel);
+  background: var(--panel-2);
+  transition: transform var(--dur-1) var(--ease-out), z-index var(--dur-1) var(--ease-out);
+  position: relative;
+}
+.hero-stats__avatar:first-child {
+  margin-left: 0;
+}
+.hero-stats__avatar:hover {
+  transform: scale(1.22);
+  z-index: 3;
+}
+.hero-stats__avatar--fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-2);
+  background: var(--panel-2);
+}
+.hero-stats__avatar--svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-2);
+  padding: 3px;
+  box-sizing: border-box;
+}
+.hero-stats__avatar--svg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tagline {
+  margin: 10px 0 var(--sp-4);
+  color: var(--muted);
+  font-size: var(--fs-base);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.filters { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) 20px;
+  font-size: var(--fs-base);
+  cursor: pointer;
+  transition: all var(--dur-2) var(--ease-out);
+}
+.chip:hover { color: var(--text); border-color: var(--border-hover); }
+.chip:active { transform: translateY(1px); }
+.chip.active {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* ---------- 年份跨度条(2026-09-10,S4b)----------
+   把「时间」变成一等信息:2000–2026 每年一格,有演出的年份按场次加高,
+   无演出的年份以 3px 淡刻度存在 —— 27 年跨度 + 稀疏分布一眼可读。
+   点击某年 = 按该年筛选,与筛选面板「年份」类别读写同一状态。
+   组件 JS 见 /js/yearbar.js(可复用,首页 S4c 同一份)。 */
+.yearbar-host { flex-basis: 100%; min-width: 0; }
+
+.yearbar { position: relative; min-width: 0; }
+
+.yearbar__head {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  margin-bottom: var(--sp-1);
+}
+.yearbar__range { font-size: var(--fs-xs); color: var(--muted); letter-spacing: 0.06em; }
+.yearbar__summary { margin-left: auto; font-size: var(--fs-xs); color: var(--muted); }
+.yearbar__reset {
+  flex: none;
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+  font: inherit; font-size: var(--fs-xs); line-height: 1;
+  padding: 4px 10px; border-radius: var(--r-pill); cursor: pointer;
+  transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.yearbar__reset:hover { color: var(--text); border-color: var(--border-hover); }
+.yearbar__reset:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.yearbar__reset.is-active {
+  background: var(--accent); border-color: transparent;
+  color: var(--on-accent); font-weight: 600;
+}
+
+.yearbar__track {
+  display: flex; align-items: flex-end; gap: 2px;
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin; padding-bottom: 2px;
+}
+.yearbar__year {
+  flex: 1 1 24px; min-width: 24px; height: 46px; padding: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  gap: 2px;
+  border: none; background: transparent; color: var(--muted); cursor: pointer;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out);
+}
+.yearbar__year:hover { background: var(--accent-wash-faint); }
+/* 轨道 overflow 会裁掉外扩焦点环(顶边整条不可见,呈 U 形)→ 改用内嵌环,
+   与 .map-picker__item:focus-visible 同款(P2,2026-09-10)。 */
+.yearbar__year:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.yearbar__year.is-disabled { cursor: default; }
+.yearbar__year.is-disabled:hover { background: transparent; }
+.yearbar__year.is-selected { background: var(--accent-wash); }
+.yearbar__bar { width: 60%; max-width: 10px; min-height: 3px; border-radius: 2px 2px 0 0; }
+.yearbar__num { font-size: var(--fs-xs); line-height: 1; }
+.yearbar__year.is-selected .yearbar__num { color: var(--accent); font-weight: 700; }
+
+.yearbar__tip {
+  position: absolute; z-index: var(--z-tip);
+  background: var(--ink-bg); color: var(--white);
+  font-size: var(--fs-xs); line-height: 1.4;
+  padding: 4px 10px; border-radius: var(--r-sm);
+  pointer-events: none; white-space: nowrap;
+  transform: translateX(-50%);
+  box-shadow: var(--sh-2) var(--shadow-25);
+}
+
+/* 歌手页搜索(2026-09-09,2026-09-10 定稿):检索标题/城市,与标签筛选 AND。仅一枚放大镜图标
+   (无框无底无占位文字),紧贴「筛选」钮右侧;点开 → 输入框在放大镜【右旁】展开(透明无框),
+   输入即过滤,再点图标 / Esc 收起。年份条整条独占一行(flex-basis:100%),故位于下一行。 */
+.toolbar--search .searchbox { display: inline-flex; align-items: center; gap: 2px; }
+.searchbox__toggle {
+  width: 36px; height: 36px; padding: 0;
+  border: none; background: transparent; color: var(--muted);
+  border-radius: 50%; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.searchbox__toggle:hover { color: var(--accent-2); background: var(--accent-wash); }
+.searchbox__toggle svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* 静态放大镜(2026-09-15):给「搜索默认展开」的页面用作前置图标 —— 尺寸/颜色与
+   .searchbox__toggle 逐字相同,但**不是控件**,故 pointer-events:none 且无 hover 反馈
+   (不可点的东西不该给出可点的暗示)。消费者:个人中心收藏区。 */
+.searchbox__icon {
+  width: 36px; height: 36px; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--muted); pointer-events: none;
+}
+.searchbox__icon svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.searchbox__input {
+  border: none; background: transparent; color: var(--text);
+  font: inherit; font-size: var(--fs-base);
+  width: 200px; padding: 6px 2px;
+  caret-color: var(--accent);
+}
+/* 2026-09-10:原为 `outline: none` 且无任何替代 —— 输入框是透明无框的,去掉 outline 后
+   键盘用户完全看不到焦点在哪(违反 R7 与 impeccable「never outline:none without replacement」)。
+   输入框的"无框"是**静止态**的设计,焦点指示不属于框,故补回与其他控件一致的焦点环。 */
+.searchbox__input:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+.searchbox__clear {
+  width: 24px; height: 24px; padding: 0;
+  border: none; border-radius: 50%;
+  background: transparent; color: var(--muted);
+  font-size: var(--fs-base); line-height: 1; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.searchbox__clear:hover { color: var(--accent-2); background: var(--accent-wash); }
+.searchbox__clear svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.searchbox__input[hidden], .searchbox__clear[hidden] { display: none; }
+/* 窄屏:展开的输入框收窄,避免顶出右缘 */
+@media (max-width: 640px) {
+  .searchbox__input { width: 44vw; }
+}
+
+/* ---------- 地图(内联 SVG,同 geoguide 首页) ----------
+   2026-09-10:去掉 900px 上限,铺满内容列(与顶栏/页脚同宽),左右边框与两侧贴合。
+   底图 @svg-maps/world 顶点密度固定,放得越宽越显锯齿——内容列最宽 1100-40=1060px,
+   即 ~1.18× 密度,仍在可接受范围;若日后改全出血(贴屏幕边)需重新评估锯齿。 */
+.map {
+  margin: 18px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--water);
+  position: relative;
+  touch-action: none;
+}
+
+.map-canvas {
+  display: block;
+  width: 100%;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.map-tip {
+  position: absolute;
+  z-index: var(--z-tip);
+  background: var(--ink-bg);
+  color: var(--white);
+  font-size: var(--fs-base);
+  line-height: 1.4;
+  padding: 6px 14px;
+  border-radius: var(--r-md);
+  pointer-events: none;
+  /* 2026-09-15:原为 nowrap 且无 max-width —— 32 城的聚合点会拉成 ~301px 的横杠,
+     压住一片可点目标。改为限宽换行,遮挡面积收窄到一列。位置让位见 map.js placeTip。 */
+  max-width: 240px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: var(--sh-2) var(--shadow-25);
+}
+
+/* 「邻近城市」选择器:近邻点(如 深圳/香港)在当前缩放下重叠时,点中重叠区弹出。
+   z-index 高于缩放钮(20),低于弹窗(100);点击项即可区分选中;点空白/拖动/缩放/Esc 关闭 */
+.map-picker {
+  position: absolute;
+  z-index: var(--z-picker);
+  /* 2026-09-16:与字号同一比例收(16→12 = ×0.75)。128/220 是 16px 时的尺寸,现在
+     内容自然宽(实测 86–99px)已经够不着 128,框宽此前是被 min-width 撑着的、不是被字撑着的。 */
+  min-width: 96px;
+  max-width: 165px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-2) var(--shadow-28);
+  overflow: hidden;
+  /* 2026-09-16:16px(--fs-base)→ 12px(--fs-xs)。原实现是 14px 字面量,S4a 令牌化时因阶梯
+     12/16 之间无档被就近抬到 --fs-base —— 浮层字比它服务的城市点还大。落回密集浮层该待的
+     小档;**不为它新增 --fs-sm(14px)**:12→14=1.167 会破坏 tokens.css 声明的 ≥1.25 模数。 */
+  font-size: var(--fs-xs);
+  line-height: 1.3;
+  pointer-events: auto;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.map-picker__title {
+  /* 横向内距与 .map-picker__item 必须同值:两者左边缘要对齐(2026-09-16 随字号一起收窄) */
+  padding: 7px var(--sp-2) 5px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+.map-picker__item {
+  display: block;
+  width: 100%;
+  /* 横向 12 → 8px:随字号(×0.75)一起收;取梯形就近的一档(12×0.75=9 无此档,8 只差 1px)。
+     纵向 7px 不动 —— 它撑着单项高(31px),收它等于收触摸目标。 */
+  padding: 7px var(--sp-2);
+  border: none;
+  background: none;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  /* font-size 必须 inherit(不能在这里钉死具体字号的令牌):map.js 的 openPickerFor 会在成员多、
+     列表放不下时给 .map-picker 设**行内字号**逐档缩小;钉死在这里会把行内值顶掉,
+     缩字号全程空转、只能靠 max-height 滚动兜底(2026-09-15 实测踩到:字号设到 12px,
+     单项高仍纹丝不动 35.0px)。button 不继承字号,故这里必须显式写 inherit。
+     2026-09-16:基准字号已由 --fs-base(16)降到 --fs-xs(12),实测单项高 35.0 → 31.0px。 */
+  font-size: inherit;
+}
+.map-picker__item + .map-picker__item { border-top: 1px solid var(--panel-2); }
+.map-picker__item:hover { background: var(--panel-2); color: var(--accent-2); }
+.map-picker__item:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+
+.map-empty {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  color: var(--muted); font-size: var(--fs-base);
+  margin: 0;
+  pointer-events: none;
+}
+
+/* 地图:内联 SVG(照抄 geoguide 首页样式,暖色调适配)
+   - 国界 = path 描边(容器底色),矢量任意缩放清晰
+   - 有数据的国家着色(has-data),其余中性
+   - 城市点位为 SVG 圆点,屏幕尺寸恒定 */
+.map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.map svg path:not(.province-line) {
+  fill: var(--map-land);
+  /* 国界描边用近白色(同 geoguide 的 --paper-light),否则与填充同色系
+     几乎看不见,放大后小岛礁/国界细节全糊掉 */
+  stroke: var(--panel);
+  /* 国界线宽=viewBox 单位(CSS 写死,随缩放走)。须足够宽以盖住 DataV 中国与
+     @svg 邻国沿线 ~0.3px 内的贴边错位(否则放大露水色缝、"整圈偏右"观感);
+     曾用 geoguide 的 0.75 偏粗、JS 1/s 恒定细线会露缝,2026-09-03 折中定为 0.5
+     (0.25~0.5 实测各倍率无水缝)。勿退回恒定细线(盖不住两源错位)。
+     注意:线宽声明必须写在这里;曾漏写只剩注释,导致走 SVG 默认 stroke-width:1
+     → 国界偏粗(2026-09-03 事故,已补)。省界 .province-line 属例外,不在此规则内,
+     由 map.js 单独设 1/s 恒定细线 */
+  stroke-width: 0.5;
+  transition: filter var(--dur-2) var(--ease-out);
+}
+.map svg path.has-data { fill: var(--map-land-data); }
+.map svg path.nine-dash-line {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 0.5; /* geoguide 同款:viewBox 单位,随缩放走 */
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+/* 中国内部省界(数据 china-province-seams.js,仅内部省界;大陆标准台湾即省)。
+   fill:none; 本规则不写 stroke-width → 由 map.js updateStrokes 按 1/s 设 attribute,
+   屏幕线宽恒定(~0.5px),放大不变粗。pointer-events:none 不参与命中/悬浮 */
+.map svg path.province-line {
+  fill: none;
+  stroke: var(--panel);
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+/* 国家(整片含中国)不作为可点按钮:悬浮不变化,白描边不随之发糊;
+   变化只发生在真正可点的城市点(.city-dot:hover 见下) */
+.map .city-dot {
+  fill: var(--accent-2);
+  stroke: var(--dot-stroke);
+  /* 描边宽度由 map.js 按 1/s 反缩(内联),放大后橙色核心恒定;
+     此处不写 stroke-width,否则会覆盖 JS 的按缩放反缩 */
+  cursor: pointer;
+  transition: filter var(--dur-2) var(--ease-out);
+}
+.map .city-dot:hover { filter: brightness(1.2); }
+
+/* 聚合点(zoom-out 拥挤治理):成员城市合并为带数字的一圈,样式同单点(橙心白边),
+   中心白字显示成员城市数;半径/描边/字号由 map.js 按 1/s 反缩,屏幕恒定 */
+.map .city-clusters { pointer-events: none; }
+.map .city-clusters g {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: filter var(--dur-2) var(--ease-out);
+}
+.map .city-clusters g:hover { filter: brightness(1.2); }
+/* 超阈值聚合点(成员 > CLUSTER_PICK_MAX,map.js 给 <g> 加 is-mute):
+   保持可点(点击聚焦平滑放大拆散,不弹超长菜单),给予手型与交互反馈。 */
+.map .city-clusters g.is-mute { cursor: pointer; opacity: 0.9; }
+.map .city-clusters g.is-mute:hover { filter: brightness(1.2); }
+.map .city-clusters circle {
+  fill: var(--accent-2);
+  stroke: var(--dot-stroke);
+  /* 描边宽度由 map.js 按 1/s 内联,勿在此覆盖 */
+}
+.map .city-clusters text {
+  fill: var(--on-accent); /* S4d:数字在强调底上,用墨色保证两主题 ≥7:1(原 --white 在 dark 仅 ~2.6:1) */
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: var(--font-body);
+  pointer-events: none;
+  /* 字号由 map.js 按 1/s 内联(屏幕恒定) */
+}
+.map__zoom {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: var(--z-zoom);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--sh-1) var(--shadow-12);
+  background: var(--panel);
+}
+.map__zoom button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel);
+  color: var(--text);
+  font-size: var(--fs-lg);
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.map__zoom button + button { border-top: 1px solid var(--border); }
+.map__zoom button:hover { background: var(--panel-2); }
+.map__zoom button:disabled { color: var(--muted); cursor: default; background: var(--panel); }
+
+/* ---------- 弹窗 ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: none;
+}
+.modal.open { display: block; }
+
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: var(--backdrop);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.modal-card {
+  position: relative;
+  margin: 4vh auto 0;
+  margin: 4dvh auto 0;
+  width: min(680px, calc(100% - 28px));
+  max-height: 88vh;
+  max-height: 88dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  /* 2026-09-10 修复:S4a 去边后 dark 下卡片与遮罩几乎无边界(cardVsFarBackdrop
+     1.22:1 / maxAdjStep 0.012)。改为「1px 细边 + 12px 柔影」:边框给出清晰边缘,
+     12px 模糊不与 1px 边形成 hairline+wide shadow(gpt 规则 0 命中)。 */
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-2) var(--shadow-25);
+  overflow: hidden;
+  animation: modal-in var(--dur-2) var(--ease-out);
+}
+@keyframes modal-in {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4);
+  padding: 20px var(--sp-6) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+.modal-head h2 {
+  margin: 0; font-size: var(--fs-lg); letter-spacing: 0.02em; color: var(--accent-2);
+}
+.modal-meta { margin: var(--sp-1) 0 0; font-size: var(--fs-base); color: var(--muted); }
+
+/* ---------- 全站自研轻弹窗系统 (AppDialog) ---------- */
+.app-dialog-backdrop {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--sp-4);
+  background: var(--backdrop);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.app-dialog-backdrop.is-open {
+  opacity: 1;
+}
+.app-dialog-backdrop[hidden] {
+  display: none !important;
+}
+.app-dialog-card {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  padding: 22px 24px;
+  transform: translateY(10px) scale(0.98);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.app-dialog-backdrop.is-open .app-dialog-card {
+  transform: translateY(0) scale(1);
+}
+.app-dialog-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-3); margin-bottom: var(--sp-3);
+}
+.app-dialog-title {
+  margin: 0; font-family: var(--font-display); font-size: var(--fs-lg);
+  font-weight: 700; color: var(--text); line-height: 1.3;
+}
+.app-dialog-close {
+  flex: none; margin-right: -4px;
+}
+.app-dialog-body {
+  margin-bottom: var(--sp-5);
+}
+.app-dialog-msg {
+  margin: 0; font-size: var(--fs-base); color: var(--muted);
+  line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+}
+.app-dialog-field {
+  margin-top: var(--sp-3);
+}
+.app-dialog-input,
+.app-dialog-textarea {
+  width: 100%; box-sizing: border-box;
+}
+.app-dialog-textarea {
+  resize: vertical; min-height: 72px; line-height: 1.5;
+}
+.app-dialog-actions {
+  display: flex; justify-content: flex-end; align-items: center;
+  gap: var(--sp-3);
+}
+.btn--danger-solid {
+  background: var(--danger);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.btn--danger-solid:hover:not(:disabled) {
+  background: var(--danger-strong);
+  color: #fff;
+}
+.btn--danger-solid:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* ---------- 悬浮通知 (Toast) ---------- */
+.app-toast-container {
+  position: fixed; top: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: calc(var(--z-modal) + 20);
+  display: flex; flex-direction: column; align-items: center;
+  gap: var(--sp-2); pointer-events: none;
+}
+.app-toast {
+  pointer-events: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  word-break: break-word;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  font-size: var(--fs-base); color: var(--text);
+  line-height: 1.4; cursor: pointer;
+  opacity: 0; transform: translateY(-8px) scale(0.96);
+  transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+.app-toast.is-open {
+  opacity: 1; transform: translateY(0) scale(1);
+}
+.app-toast__icon {
+  width: 16px; height: 16px; flex: none;
+}
+.app-toast--success {
+  border-color: rgba(46, 125, 50, 0.5);
+  color: var(--ok);
+}
+.app-toast--error {
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+.app-toast--warning {
+  border-color: rgba(211, 84, 0, 0.5);
+  color: var(--accent);
+}
+
+/* 排序切换(2026-09-12):两态分段控件,仅该城市 ≥2 场时由 modal.js 渲染进 #modal-sort。
+   用两个**静态标签**的按钮 + aria-pressed,而不是单钮换标签 —— 后者 pressed 无稳定语义;
+   两个选项同时可见,当前排序一眼可读,选中态沿用本站既有的"实底强调色"
+   (.yearbar__reset / .mine-tab.active 同款),不新造一套控件语言。
+   目标尺寸:min-height 32px(≥ WCAG 2.2 AA 的 24×24,2.5.8)。
+   注:ui-ux-pro-max 检索给的 44×44 是 iOS HIG 值(= AAA 2.5.5),而本站既有紧凑控件
+   (.yearbar__reset 实测约 20px)都在其下;取 32px 是"点得准"与"不撑高弹窗头部"的折中。 */
+.modal-sort { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--sp-3); }
+/* 项目无全局 [hidden] 规则,而本元素是 display:flex —— 必须自带覆盖,否则 modal.js 设了
+   hidden 也照样显示,单场城市的弹窗头部会多出 12px 空隙(2026-09-12 复核抓到的真缺陷)。
+   同款补丁全站已有 14 处,见 .filter-mega__item[hidden] 的注释。 */
+.modal-sort[hidden] { display: none; }
+.sort-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 32px; padding: 0 var(--sp-3);
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+  font: inherit; font-size: var(--fs-xs); line-height: 1;
+  border-radius: var(--r-pill); cursor: pointer;
+  transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.sort-btn:hover { color: var(--text); border-color: var(--border-hover); }
+.sort-btn:active { transform: translateY(1px); }
+.sort-btn[aria-pressed="true"] { background: var(--accent); border-color: transparent; color: var(--on-accent); font-weight: 600; }
+.sort-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+.modal-close {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  font-size: var(--fs-lg); line-height: 1;
+  cursor: pointer;
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: color var(--dur-2) var(--ease-out);
+}
+.modal-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.modal-close:hover { background: transparent; color: var(--accent-2); }
+
+.modal-body {
+  padding: var(--sp-4) var(--sp-6) var(--sp-6);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- 演出条目 ---------- */
+.perf {
+  padding: var(--sp-4) 0;
+  border-bottom: 1px dashed var(--border);
+}
+.perf:last-child { border-bottom: none; padding-bottom: 6px; }
+/* 深链定位反馈(2026-09-13):目标演出短暂描边后自行淡出 —— 是「你到了」的瞬时提示,不是持久选中态。
+   用 outline 而非 background:.perf 无左右内边距(padding: var(--sp-4) 0),上底色会成为贴着文字的
+   色带;outline 不参与布局、零位移。复用站内既有 flash 令牌(tokens.css --flash-border)。 */
+.perf.is-target {
+  outline: 2px solid var(--flash-border);
+  outline-offset: 4px;
+  animation: perf-target-fade 1400ms var(--ease-out) forwards;
+}
+@keyframes perf-target-fade { to { outline-color: transparent; } }
+
+.perf-top {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.badge.type,
+.badge-type {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  padding: 2px 10px 3px;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.35;
+  background: var(--panel-2);
+  color: var(--accent-2);
+  border: 1px solid var(--border);
+  letter-spacing: 0.02em;
+  vertical-align: 1px;
+}
+.perf-top .badge.type {
+  font-size: var(--fs-xs);
+  padding: 2px 10px 3px;
+}
+/* 演出类型语义色彩:演唱会紫 / 音乐节绿 / 歌友会蓝 / 签售粉 / 其他橙 */
+.badge.type[data-type*="演唱会"],
+.badge-type[data-type*="演唱会"] {
+  background: rgba(163, 113, 247, 0.15);
+  color: #d2a8ff;
+  border-color: rgba(163, 113, 247, 0.35);
+}
+.badge.type[data-type*="音乐节"],
+.badge-type[data-type*="音乐节"] {
+  background: rgba(63, 185, 80, 0.15);
+  color: #7ee787;
+  border-color: rgba(63, 185, 80, 0.35);
+}
+.badge.type[data-type*="歌友会"],
+.badge-type[data-type*="歌友会"] {
+  background: rgba(88, 166, 255, 0.15);
+  color: #a5d6ff;
+  border-color: rgba(88, 166, 255, 0.35);
+}
+.badge.type[data-type*="签售"],
+.badge-type[data-type*="签售"] {
+  background: rgba(247, 120, 186, 0.15);
+  color: #f778ba;
+  border-color: rgba(247, 120, 186, 0.35);
+}
+.badge.type[data-type*="其他"],
+.badge-type[data-type*="其他"] {
+  background: rgba(255, 138, 76, 0.15);
+  color: #ff9a62;
+  border-color: rgba(255, 138, 76, 0.35);
+}
+
+/* 日间主题下的低饱和微调 */
+[data-theme="light"] .badge.type[data-type*="演唱会"],
+[data-theme="light"] .badge-type[data-type*="演唱会"] {
+  background: rgba(130, 80, 223, 0.12);
+  color: #6e40c9;
+  border-color: rgba(130, 80, 223, 0.28);
+}
+[data-theme="light"] .badge.type[data-type*="音乐节"],
+[data-theme="light"] .badge-type[data-type*="音乐节"] {
+  background: rgba(46, 160, 67, 0.12);
+  color: #176c30; /* 5.73:1 on tinted panel — AA */
+  border-color: rgba(46, 160, 67, 0.28);
+}
+[data-theme="light"] .badge.type[data-type*="歌友会"],
+[data-theme="light"] .badge-type[data-type*="歌友会"] {
+  background: rgba(9, 105, 218, 0.12);
+  color: #0757b8; /* 5.78:1 on tinted panel — AA */
+  border-color: rgba(9, 105, 218, 0.28);
+}
+[data-theme="light"] .badge.type[data-type*="签售"],
+[data-theme="light"] .badge-type[data-type*="签售"] {
+  background: rgba(191, 57, 137, 0.12);
+  color: #a32c72; /* 5.59:1 on panel — AA */
+  border-color: rgba(191, 57, 137, 0.28);
+}
+[data-theme="light"] .badge.type[data-type*="其他"],
+[data-theme="light"] .badge-type[data-type*="其他"] {
+  background: rgba(187, 85, 30, 0.12);
+  color: #9e4200; /* 5.55:1 on panel — AA */
+  border-color: rgba(187, 85, 30, 0.28);
+}
+/* 日期 = 强锚点,但不压过标题(S4d 初版曾把日期做成 --fs-xl 的「视觉锚点」,后推翻):
+   内容型档案馆里读者扫视是为了识别「这是哪场演出」(标题),元数据不该比主体内容更响 ——
+   日期放大到标题之上会让人先读到 2024-06-22、长标题换行后显得更次要。故标题回 --fs-xl、日期降 --fs-lg。
+   日期仍是强锚点:Archivo tabular 数字 + .perf-top 首位位置,只是不再抢标题。勿再改回日期大于标题。 */
+.perf-date {
+  font-family: var(--font-data);
+  font-size: var(--fs-lg); line-height: 1;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* 分享按钮 (modal.js .perf-top 内, 位于 .perf-fav 之前) */
+.perf-share {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; padding: 0;
+  border: none; background: transparent; color: var(--muted);
+  border-radius: 50%; cursor: pointer; font-family: inherit; line-height: 1;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.perf-share svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; display: block; pointer-events: none; }
+.perf-share:hover { color: var(--accent-2); background: var(--accent-wash); }
+.perf-share:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.perf-share:active { transform: translateY(1px); }
+@media (hover: none) {
+  .perf-share:hover { color: var(--muted); background: transparent; }
+}
+.perf-top .perf-share { margin-left: auto; }
+.perf-top .perf-share + .perf-fav { margin-left: 0; }
+
+/* 收藏星标(09-08,modal.js .perf-top 右端;09-09 去边框):margin-left:auto 靠右;flex:none 不压缩类型/日期。
+   无边框幽灵钮:默认仅一枚加大星形,不画圈;hover/on 用淡色 wash 表意(边框既去,靠底色表「可点/已点亮」)。 */
+.perf-fav {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; padding: 0;
+  border: none; background: transparent; color: var(--muted);
+  border-radius: 50%; cursor: pointer; font-family: inherit; line-height: 1;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.perf-fav svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; display: block; pointer-events: none; }
+.perf-fav:hover { color: var(--accent-2); background: var(--accent-wash); }
+.perf-fav.on { color: var(--star); background: var(--star-wash); }
+.perf-fav.on svg { fill: currentColor; }
+.perf-fav.on:hover { color: var(--star); background: var(--star-wash-strong); }
+/* 点按瞬时反馈:登录引导/会话失效点按 → 底色短暂高亮后自动复原(不产生真实记录) */
+.perf-fav.fav-flash { color: var(--accent-2); background: var(--accent-wash-strong); }
+.perf-fav:disabled { opacity: 0.6; cursor: default; }
+/* 触摸/粗指针:点过不留 :hover 底色(无鼠标移开动作,否则会粘住);已选(.on)保持选中色 */
+@media (hover: none) {
+  .perf-fav:hover:not(.on) { color: var(--muted); background: transparent; }
+}
+
+/* 标题与场馆层级:
+   手机端(默认/≤640px):块级垂直堆叠,标题独占一行,场馆降为下方次要行(防 375px 长标题被压成一字一行)。
+   电脑端(>640px):宽度充足时场馆与标题平齐同行对齐(左标题,右场馆,基线对齐)。 */
+.perf-head { margin-bottom: var(--sp-3); }
+.perf-head .perf-title { margin: 0; }
+/* 标题 = 卡片最大一级(25px / 700),是读者扫视的第一落点;日期(20px)在其下作锚点。
+   取 --fs-xl 而非更大,是为与页标题/区块标题保持既有阶梯度内,且 375px 长标题换行仍可读。 */
+.perf-title { font-size: var(--fs-xl); letter-spacing: 0.01em; line-height: 1.35; }
+.perf-place { margin: var(--sp-1) 0 0; color: var(--muted); font-size: var(--fs-base); overflow-wrap: anywhere; }
+
+@media (min-width: 641px) {
+  .perf-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-2) var(--sp-4);
+  }
+  .perf-head .perf-title {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .perf-place {
+    margin: 0;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 45%;
+  }
+}
+.perf-note { margin: var(--sp-2) 0 0; font-size: var(--fs-base); color: var(--accent-deep); }
+.perf-verified { margin: var(--sp-2) 0 0; display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-base); color: var(--ok); }
+.perf-verified .ico-check { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* 视频链接(S4d):有封面 → 封面网格;无封面 → 一行轻量文字链(去掉原描边药丸,降低卡片感) */
+.perf-links { margin-top: var(--sp-3); display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--sp-2) var(--sp-3); }
+.perf-links .link {
+  display: inline-flex; align-items: center;
+  font-size: var(--fs-base);
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding: 2px 0;
+  transition: color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.perf-links .link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.perf-links .link.placeholder { color: var(--muted); border-bottom-color: transparent; cursor: not-allowed; }
+.perf-links .link.placeholder:hover { color: var(--muted); border-bottom-color: transparent; }
+.perf-links .link.none { color: var(--muted); padding: 6px 0; cursor: default; }
+/* 封面即链接(v10)。网格:缩略图 160px(≤520px 136px),**两档之间不再分主次** ——
+   原 .perf-cover--full 把 is_full 封面撑到 380px,但 7 场「整场」演出各自只有这一条链接,
+   同一条弹窗里凑不出「一大多小」,只造成跨演出尺寸不一致(面积差 4~4.8 倍),2026-09-11 删。
+   flex-wrap 换行,窄屏不横向溢出。 */
+.perf-cover {
+  display: flex; flex-direction: column;
+  width: 160px; max-width: 100%;
+  flex: 0 0 auto;
+  border: 1px solid var(--border-soft); border-radius: var(--r-md); overflow: hidden;
+  background: var(--panel-2); color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.perf-cover:hover { border-color: var(--accent); box-shadow: var(--sh-1) var(--shadow-12); }
+.perf-cover__thumb {
+  position: relative; display: block; width: 100%;
+  aspect-ratio: 16 / 9; overflow: hidden; background: var(--ph-thumb);
+}
+.perf-cover__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+/* 灰占位(图床 404/防盗链/大陆不可达 YT):图片 error → .is-broken 显示占位,封面仍可点(不裂红) */
+.perf-cover__ph {
+  position: absolute; inset: 0; display: none;
+  flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  background: var(--grad-cover-ph);
+  color: var(--ph-fg); font-size: var(--fs-xs); text-align: center;
+}
+.perf-cover.is-broken .perf-cover__img { display: none; }
+.perf-cover.is-broken .perf-cover__ph { display: flex; }
+.perf-cover__ph .ph-play { width: 22px; height: 22px; fill: currentColor; }
+.perf-cover__ph .ph-txt { max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.4; padding-bottom: 2px; margin-bottom: -2px; }
+/* 缩略图与文字条之间不画线(2026-09-11):文字条(label + 平台徽)说的是**这张图自己**,
+   与图同属一个封面,不是另一个区块 —— 与 reaction 条同一个道理。
+   别拿"底色不同即分界"当理由(初版注释就这么写错了,复核实测推翻):--ph-thumb #262b38 与
+   --panel-2 #232733 对比度仅 1.05:1(浅色 1.09:1),破图态占位渐变末端对 --panel-2 也只有
+   1.14:1 —— 都远低于可感知阈值,真正的边界来自图片内容本身。 */
+.perf-cover__meta {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2);
+  padding: 6px 10px;
+  font-size: var(--fs-xs); line-height: 1.4; min-width: 0;
+}
+.perf-cover__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: var(--text); line-height: 1.4; padding-bottom: 2px; margin-bottom: -2px; }
+.perf-cover__plat { flex: none; display: inline-flex; align-items: center; font-size: var(--fs-xs); color: var(--muted); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 1px 6px; line-height: 1.4; background: var(--panel); }
+.perf-cover__plat .bili-ico { display: block; width: 16px; height: 16px; }
+.perf-cover__plat:has(.bili-ico) { border: 0; background: transparent; padding: 0; } /* B站小电视:去外框/白底 */
+.perf-cover__ph .bili-ico { width: 18px; height: 18px; flex: none; }
+@media (max-width: 520px) {
+  .perf-cover { width: 136px; }
+}
+/* 曲目区(S4d):从 .perf-links 内的 <details class="perf-tracks"> 提出为独立 section,默认展开。
+   曲目是这场演出的内容,与上方视频区同属一体,**不画分隔线**(2026-09-11):原有那条 border-top
+   把同一场演出切成两截。改用间距分层 —— 标题「曲目 · N 首」本身就是锚点,不需要线来起头。
+   列表 210px 起自动列数。极长 setlist 由弹窗 body 滚动承载。 */
+.perf-setlist { margin-top: var(--sp-6); }
+.perf-setlist__title { margin: 0 0 var(--sp-2); font-size: var(--fs-xs); font-weight: 700; color: var(--muted); }
+.perf-setlist__list {
+  margin: 0;
+  padding: 0 4px 4px 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-1) var(--sp-3);
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  max-height: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
+}
+.perf-setlist__list::-webkit-scrollbar {
+  width: 5px;
+}
+.perf-setlist__list::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: var(--r-sm);
+}
+.perf-setlist__list li { margin: 0; min-width: 0; }
+.perf-track { display: inline-flex; align-items: baseline; gap: var(--sp-2); max-width: 100%; color: var(--link); text-decoration: none; border: 1px solid var(--border-warm); background: var(--panel-2); border-radius: var(--r-md); padding: var(--sp-1) var(--sp-3); white-space: nowrap; }
+.perf-track > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; padding-bottom: 2px; margin-bottom: -2px; }
+.perf-track .tm { color: var(--accent-deep); font-family: var(--font-data); font-variant-numeric: tabular-nums; flex: none; }
+.perf-track .part-badge { flex: none; align-self: center; font-size: var(--fs-xs); line-height: 1; font-weight: 700; color: var(--on-accent); background: var(--accent-deep); border-radius: var(--r-sm); padding: 3px 5px; min-width: 20px; text-align: center; }
+.perf-track:hover { border-color: var(--accent); background: var(--accent-wash-soft); }
+.perf-track.none { color: var(--muted); background: transparent; border-style: dashed; cursor: default; }
+.perf-track.none:hover { border-color: var(--border-warm); background: transparent; }
+
+/* ---------- 页脚 ---------- */
+.site-foot {
+  margin-top: var(--sp-6);
+  padding: 22px 0 46px;
+  color: var(--muted);
+  font-size: var(--fs-base);
+}
+.site-foot p { margin: var(--sp-1) 0; }
+.site-foot a { color: var(--link); }
+
+/* ---------- 移动端 ---------- */
+/* 年份条:窄于 900px 只保留整五年标签(刻度一个不少,密度降级,避免 4 位数互相压字)。
+   375px 下 27 格 × 24px > 容器 → 组件内部横向滚动,不产生页面级横向滚动。 */
+@media (max-width: 900px) {
+  /* 用 visibility 而非 display:数字仍占布局空间,柱子底边才与有标签的格子齐平。
+     格子是 column + flex-end、数字排在柱子下方,display:none 会连同这 14px
+     (12px 字高 + 2px gap)一起抽走 → 有标签的柱子被顶高 14px,看着「高一截」
+     且底边参差(2026-09-11 用户报告,实测不齐度 14px)。 */
+  .yearbar__year:not(.is-major) .yearbar__num { visibility: hidden; }
+}
+
+@media (max-width: 640px) {
+  .brand-zh { font-size: var(--fs-2xl); }
+  .brand-en { letter-spacing: 0.22em; }
+  .yearbar__year { height: 44px; }
+  .yearbar__summary { margin-left: 0; order: 3; flex-basis: 100%; }
+  .chip { padding: 10px 20px; }
+  .modal-card { margin: 2vh auto 0; margin: 2dvh auto 0; max-height: 92vh; max-height: 92dvh; }
+  /* 375px 不缩小标题:S4d 修复 1 后标题须 ≥ 日期(--fs-xl ≥ --fs-lg);原处的
+     `.perf-title{font-size:var(--fs-lg)}` 在 base 就是 fs-lg 时是死规则,现会破坏层级,故删除。 */
+  .site-foot { font-size: var(--fs-xs); padding: 14px 0 26px; }
+  .site-foot p { margin: 3px 0; }
+}
+
+/* ============================================================
+   用户系统 / 首页卡片 / 表单 / 审核(新增)
+   ============================================================ */
+
+/* ---------- 顶栏导航 ---------- */
+.topnav {
+  background: var(--bg);
+  position: sticky; top: 0; z-index: var(--z-sticky);
+}
+.topnav .wrap {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+  padding-top: var(--sp-3); padding-bottom: var(--sp-3); flex-wrap: wrap;
+}
+.topnav__brand { font-weight: 700; color: var(--accent-2); text-decoration: none; font-size: var(--fs-base); letter-spacing: 0.02em; }
+.topnav__links { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+.topnav__links a { color: var(--muted); text-decoration: none; font-size: var(--fs-base); }
+.topnav__links a:hover { color: var(--text); }
+
+/* ---------- 顶栏主题开关(S2)----------
+   ☾/☀ 一律内联 SVG(不用 emoji/Unicode 当图标)。默认 dark 显示 ☀(可切到 light),
+   light 显示 ☾;图标的显示由 CSS 依 data-theme 决定,JS 只切属性。 */
+.theme-toggle {
+  flex: none; width: 34px; height: 34px; padding: 0; margin: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--panel); color: var(--muted); cursor: pointer;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.theme-toggle:hover { color: var(--text); background: var(--panel-2); border-color: var(--border-hover); }
+.theme-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.theme-toggle svg { width: 18px; height: 18px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle svg.theme-toggle__moon { display: none; }
+:root[data-theme="light"] .theme-toggle__sun { display: none; }
+:root[data-theme="light"] .theme-toggle__moon { display: block; }
+
+/* ---------- 首页:档案头版 + 紧凑目录(S4c 结构重做)----------
+   旧「等权歌手卡网格」已移除:真实分布是 1 位主力 + 2 位近乎空的次要,
+   等权卡片会把弱点放大(0 场也占一张卡)且主力资产的年份跨度被压成小字。
+   改为「档案头版(主力 + 年份条)+ 目录行」——首页回答「这里有什么」。 */
+.home-content { margin: var(--sp-6) 0 var(--sp-8); }
+
+/* 档案头版 */
+.masthead { padding: var(--sp-8) 0 var(--sp-6); border-bottom: 1px solid var(--border); }
+/* 头像与姓名左右并排;align-items:flex-start 让头像与标题首行对齐 */
+.masthead__hero { display: flex; align-items: flex-start; gap: var(--sp-6); }
+.masthead__id { flex: 1; min-width: 0; }
+.masthead__avatar {
+  width: 112px; height: 112px; flex: none;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid var(--border); background: var(--panel);
+}
+.masthead__avatar--fallback {
+  display: grid; place-items: center;
+  background: var(--panel-2); color: var(--accent);
+  font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 700;
+}
+.masthead__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--sp-1) var(--sp-4); }
+.masthead__name { margin: 0; font-size: var(--fs-3xl); line-height: 1.15; }
+.masthead__name-link {
+  position: relative;
+  display: inline-block;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  transition: color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+}
+.masthead__name-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: var(--r-pill);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s var(--ease-out);
+  opacity: 0;
+}
+.masthead__name-link:hover {
+  color: var(--accent-2);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.masthead__name-link:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+.masthead__en { margin: 0; font-size: var(--fs-base); letter-spacing: 0.16em; color: var(--muted); }
+.masthead__intro { margin: var(--sp-3) 0 0; max-width: 60ch; color: var(--muted); font-size: var(--fs-base); line-height: 1.7; }
+
+/* ---------- 歌手微简介胶囊栏与跑马灯 ---------- */
+.masthead__intros-bar {
+  margin-top: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 2px 0;
+}
+.masthead__intros-viewport {
+  overflow: hidden;
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 0;
+  /* 左右边缘微渐变遮罩, 让跑马灯进出自然淡出 */
+  mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+}
+.masthead__intros-viewport.no-mask {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+.intros-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+}
+.intros-track--marquee {
+  animation: intros-marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+@media (hover: hover) {
+  .intros-track--marquee:hover {
+    animation-play-state: paused;
+  }
+}
+@keyframes intros-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intros-track--marquee {
+    animation: none;
+    overflow-x: auto;
+  }
+}
+.intro-chip {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4px 10px 5px;
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.intro-chip:hover {
+  border-color: var(--border);
+  background: var(--panel);
+}
+.intro-chip__text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.intro-chip__author {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+  letter-spacing: 0.02em;
+}
+/* 官方兜底胶囊 */
+.intro-chip--official {
+  border-color: var(--border);
+  background: var(--panel);
+}
+.intro-chip--official .intro-chip__author {
+  color: var(--accent-2);
+}
+/* 快捷添加按钮 */
+.intro-chip--add {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: var(--r-md);
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.intro-chip--add:hover {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+  background: var(--panel-2);
+}
+.intro-chip--add:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.intro-chip__plus {
+  font-size: 14px;
+  line-height: 1;
+  font-weight: bold;
+}
+.masthead__yearbar { margin-top: var(--sp-6); }
+
+/* 紧凑歌手目录(天然可扩展:歌手变多也只是更长,不会退化成卡片墙) */
+.directory { margin-top: var(--sp-8); }
+.directory__title { margin: 0 0 var(--sp-2); font-size: var(--fs-base); font-weight: 600; color: var(--text); }
+.directory__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.directory__row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-4);
+  padding: var(--sp-3) var(--sp-1); border-bottom: 1px solid var(--border);
+}
+.directory__row-avatar {
+  width: 40px; height: 40px; flex: none;
+  border-radius: 50%; object-fit: cover;
+  border: 1px solid var(--border); background: var(--panel);
+}
+.directory__row-avatar--fallback {
+  display: grid; place-items: center;
+  background: var(--panel-2); color: var(--accent);
+  font-family: var(--font-display); font-size: var(--fs-base); font-weight: 700;
+}
+.directory__row-name { display: flex; align-items: baseline; flex-wrap: wrap; min-width: 0; gap: var(--sp-3); text-decoration: none; color: var(--text); }
+.directory__row-zh {
+  position: relative;
+  display: inline-block;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: color var(--dur-2) var(--ease-out);
+}
+.directory__row-zh::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: var(--r-pill);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s var(--ease-out);
+  opacity: 0;
+}
+.directory__row-name:hover .directory__row-zh {
+  color: var(--accent-2);
+}
+.directory__row-name:hover .directory__row-zh::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+.directory__row-en { font-size: var(--fs-xs); letter-spacing: 0.12em; color: var(--muted); }
+.directory__row-meta { margin-left: auto; font-size: var(--fs-xs); color: var(--muted); }
+.directory__row-count { font-size: var(--fs-base); color: var(--muted); }
+.directory__row-submit { color: var(--link); text-decoration: none; }
+.directory__row-submit:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* 「请求新增歌手」:由虚线占位卡降级为文字动作,不再与真实内容争视觉权重 */
+.directory__request {
+  margin-top: var(--sp-4); padding: var(--sp-1) 0; border: none; background: transparent;
+  color: var(--link); font: inherit; font-size: var(--fs-base); cursor: pointer;
+  border-radius: var(--r-sm);
+}
+.directory__request:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* 焦点环不被 sticky 顶栏遮挡:tab 滚动入视口时预留顶栏高度 */
+.masthead__name-link, .directory__row-name, .directory__row-submit, .directory__request { scroll-margin-top: var(--sp-16); }
+
+/* 置顶到头版按钮(图钉):头版 / 目录行 / 歌手详情页通配 */
+.masthead__pin-btn {
+  margin-left: var(--sp-2);
+  align-self: center;
+}
+.masthead__pin-btn.is-pinned,
+.directory__pin-btn.is-pinned,
+.singer-crumb__pin.is-pinned {
+  color: var(--accent);
+  background: rgba(211, 84, 0, 0.12);
+  border-color: rgba(211, 84, 0, 0.4);
+}
+.directory__pin-btn {
+  margin-left: var(--sp-2);
+  opacity: 0.6;
+  flex: none;
+  transition: opacity var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+.directory__row:hover .directory__pin-btn,
+.directory__pin-btn:focus-visible {
+  opacity: 1;
+}
+.singer-crumb__pin {
+  margin-left: var(--sp-3);
+  vertical-align: middle;
+  display: inline-flex;
+}
+
+/* ---------- 首页贡献者星图 (Constellation) ---------- */
+.constellation-section {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px dashed var(--border);
+}
+.constellation-section[hidden] {
+  display: none !important;
+}
+.constellation-head {
+  margin-bottom: var(--sp-4);
+}
+.constellation-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--accent-2);
+  letter-spacing: 0.02em;
+}
+.constellation-subtitle {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.constellation-wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+}
+#constellation-canvas {
+  display: block;
+  width: 100%;
+  height: 560px;
+  user-select: none;
+}
+.constellation-mirror[hidden] {
+  display: none !important;
+}
+@media (max-width: 640px) {
+  #constellation-canvas {
+    height: 440px;
+  }
+}
+
+/* 页面整体淡入:内容一起出现,避免"中间后出 / 往下弹"。
+   2026-09-10:#filters / #searchbox 一并纳入——搜索是静态 HTML,若不 gate 会在地图之前
+   单独出现在最左、待标签渲染后再跳到筛选钮右侧(闪一下+跳位)。
+   S2(2026-09-10)渐进增强:门控只在 .js 下生效(/js/boot.js 在 tokens.css 之前加类;
+   2026-09-11 由 <head> 内联改为外链——生产 CSP script-src 'self' 会拒掉内联),
+   JS 被禁用时页面完全可见;看门狗:DOMContentLoaded 时无 reveal 主脚本即移除 .js,
+   主脚本在但接口挂起则由 15s 硬兜底移除(见 public/js/boot.js)。 */
+.loading-box { min-height: 260px; display: grid; place-items: center; color: var(--muted); font-size: var(--fs-base); }
+.js #home-content, .js #site-foot, .js #map, .js #filters, .js #searchbox, .js #stats { opacity: 0; }
+.js #home-content.is-ready, .js #site-foot.is-ready, .js #map.is-ready,
+.js #filters.is-ready, .js #searchbox.is-ready, .js #stats.is-ready { opacity: 1; transition: opacity var(--dur-3) var(--ease-out); }
+
+/* ---------- 歌手页面包屑 ---------- */
+.singer-crumb { margin: 0 0 var(--sp-3); font-size: var(--fs-base); color: var(--muted); }
+.back-link { color: var(--link); text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+#singer-name { font-weight: 600; color: var(--text); }
+
+/* ---------- 页面 / 表单 ---------- */
+/* 只设上下留白:左右沿用 .wrap 的 0 20px(原 shorthand 会把 .wrap 水平 padding 覆盖成 0,
+   submit/my-submissions/profile/review 手机端内容贴到屏边——2026-09-08 修) */
+.page { padding-top: 26px; padding-bottom: 40px; }
+.page-title { margin: 0 0 6px; font-size: var(--fs-2xl); color: var(--accent-2); }
+.page-hint { margin: 0 0 18px; color: var(--muted); font-size: var(--fs-base); }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-base); color: var(--muted); }
+.field--wide { grid-column: 1 / -1; }
+/* 提交页字段分组(2026-09-09):歌手+标题一行;年份/日期/形式/场馆/城市/纬度/经度一行;备注通栏。
+   只作用 #submit-form 下新容器,不动全局 .form-grid(歌手请求弹窗等仍用旧自适应)。 */
+#submit-form .submit-fields { display: grid; gap: 14px; }
+#submit-form .sf-row { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+#submit-form .sf-row--head { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); } /* 歌手 1/4 : 标题 3/4 */
+/* 行2 七字段:场馆最宽,城市收紧,纬度/经度列最窄(fr 权重小)。minmax(0,…) 允许窄列压缩不溢出。 */
+#submit-form .sf-row--meta {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 0.95fr) minmax(0, 2.4fr) minmax(0, 1.4fr) minmax(0, 0.95fr) minmax(0, 0.95fr);
+}
+#submit-form .sf-row .field { min-width: 0; }
+#submit-form .sf-row .input { min-width: 0; }
+/* 坐标输入可视窄化:比通用 input 左右内边距小,多露几位小数;type=number 自带 spinner */
+#submit-form #f-lat, #submit-form #f-lng { padding-left: var(--sp-2); padding-right: var(--sp-2); }
+/* 中屏(641–1019):行2 auto-fit 自然折行,不硬塞七列、不横溢 */
+@media (min-width: 641px) and (max-width: 1019px) {
+  #submit-form .sf-row--meta { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+}
+/* 窄屏 ≤640:纵向单列(360px 无横向溢出) */
+@media (max-width: 640px) {
+  #submit-form .sf-row--head,
+  #submit-form .sf-row--meta { grid-template-columns: minmax(0, 1fr); }
+}
+.input {
+  border: 1px solid var(--border); border-radius: var(--r-md); background: var(--panel);
+  padding: var(--sp-3) 14px; font-size: var(--fs-base); color: var(--text); font-family: inherit; width: 100%;
+}
+.input:focus { outline: 2px solid var(--focus-ring); border-color: var(--accent); }
+/* placeholder 用 --muted(2026-09-14):此前全站无 ::placeholder 规则,一律走浏览器默认 #757575,
+   暗底只有 3.57:1(< 4.5:1)。一次修好全部消费点:submit 页(.input)与个人中心收藏区
+   (.searchbox__input,2026-09-15 由 .input 改来)。实测 dark 3.57→6.27、light 4.61→5.98。
+   注意:歌手页的搜索框没有 placeholder 属性,故这条对它无影响。 */
+.input::placeholder, .searchbox__input::placeholder { color: var(--muted); }
+/* ---------- 提交页分步卡片体系 (方案 A) ---------- */
+.submit-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.submit-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.submit-step:hover {
+  border-color: var(--border-link);
+  color: var(--text);
+}
+.submit-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--panel-2);
+  color: var(--muted);
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.submit-step.active {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--panel-2);
+}
+.submit-step.active .submit-step__num {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.submit-step.completed {
+  border-color: var(--ok);
+  color: var(--text);
+}
+.submit-step.completed .submit-step__num {
+  background: var(--ok);
+  color: #fff;
+}
+.submit-step__divider {
+  width: 20px;
+  height: 1px;
+  background: var(--border);
+  flex: 0 0 20px;
+}
+@media (max-width: 640px) {
+  .submit-steps { gap: 6px; }
+  .submit-step { padding: 5px 10px; font-size: var(--fs-xs); }
+  .submit-step__divider { display: none; }
+}
+
+.step-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 20px;
+  margin-bottom: 20px;
+  transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.step-card:focus-within {
+  border-color: var(--border-link);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
+}
+.step-card__head {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.step-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.step-card__num {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: rgba(211, 84, 0, 0.12);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.step-card__badge {
+  font-size: var(--fs-xs);
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 600;
+}
+.step-card__badge--accent {
+  background: rgba(211, 84, 0, 0.12);
+  color: var(--accent);
+  border-color: rgba(211, 84, 0, 0.3);
+}
+.step-card__badge--required {
+  background: rgba(207, 34, 46, 0.08);
+  color: var(--danger);
+  border-color: rgba(207, 34, 46, 0.25);
+}
+.step-card__desc {
+  margin: 6px 0 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.step-card .songs-editor,
+.step-card .tags-editor {
+  margin-top: 14px;
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+  padding: 14px var(--sp-4);
+}
+.step-card .songs-editor:first-child {
+  margin-top: 0;
+}
+.step-card .songs-editor legend,
+.step-card .tags-editor legend {
+  font-size: var(--fs-base);
+  color: var(--muted);
+  padding: 0 var(--sp-2);
+}
+
+.links-editor { margin-top: 20px; border: 1px dashed var(--border); border-radius: var(--r-md); padding: 14px var(--sp-4); }
+/* 链接区置顶(2026-09-08):链接 editor 移为 #submit-form 首个子元素 → 顶部不留大空隙 */
+#submit-form > .links-editor:first-child { margin-top: 0; }
+.links-editor legend { font-size: var(--fs-base); color: var(--muted); padding: 0 var(--sp-2); }
+.links-editor > p:first-of-type { margin-top: 2px; } /* 首段说明紧跟 legend;解析提示(#links-msg)保持 .form-note 默认 8px */
+.links-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.link-row { display: flex; flex-direction: column; align-items: stretch; gap: var(--sp-2); margin-bottom: 14px; }
+.link-row__main { display: flex; gap: var(--sp-2); align-items: center; flex-wrap: nowrap; }
+.link-row .link-label { width: 200px; flex: none; }
+.link-row .link-url { flex: 1; min-width: 180px; }
+.link-row .link-rm { flex: 0 0 auto; }
+/* 行内小封面(2026-09-09):解析拿到 cover_url 才显示;外链不可达 onerror 隐藏,不破版 */
+.link-row__thumb { width: 56px; height: 36px; object-fit: cover; flex: none; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--panel-2); }
+.link-row__thumb[hidden] { display: none; }
+.link-ph { display: flex; align-items: center; gap: var(--sp-1); color: var(--muted); font-size: var(--fs-base); }
+/* 整场长视频开关 + 逐曲时间轴表(2026-09-07) */
+.link-whole { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-base); color: var(--muted); cursor: pointer; }
+.link-whole input { width: 16px; height: 16px; accent-color: var(--accent); flex: none; }
+.link-whole input:disabled + span { opacity: 0.55; }
+.link-whole input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.track-editor { margin: 2px 0 var(--sp-1) 26px; padding: 10px var(--sp-3); border: 1px dashed var(--border); border-radius: var(--r-md); background: var(--panel-2); }
+.track-editor > .field-note { margin: 0 0 var(--sp-2); }
+.track-pick { margin-bottom: var(--sp-1); }
+.track-pick .field-note { margin: 0 0 6px; }
+.track-row { display: flex; gap: var(--sp-2); align-items: center; margin-bottom: var(--sp-2); flex-wrap: nowrap; }
+.track-row .track-name { flex: 1; min-width: 160px; }
+.track-row .track-time { width: 178px; flex: none; }
+.track-row .track-rm { flex: 0 0 auto; }
+/* 分 P 徽(v11):多 P 组(存在 part>1)才显;单 P 组保持 display:none(视觉与 v10 一致) */
+.track-row .part-badge { display: none; flex: none; align-items: center; justify-content: center; min-width: 20px; height: 20px; font-size: var(--fs-xs); line-height: 1; font-weight: 700; color: var(--on-accent); background: var(--accent-deep); border-radius: var(--r-sm); padding: 0 5px; text-align: center; }
+.track-row .part-badge.show { display: inline-flex; }
+#submit-form .track-chips .tag-chip.used { display: none; } /* 逐曲表里已存在的歌:芯片自动隐藏 */
+/* 整段粘贴歌单(2026-09-07) */
+.list-paste { margin: 0 0 10px; }
+.list-paste-toggle { font-family: inherit; font-size: var(--fs-base); color: var(--accent-2); background: none; border: none; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.list-paste-toggle:hover { color: var(--accent); }
+.list-paste__body { margin-top: var(--sp-2); }
+.list-paste-text { font-family: var(--font-mono, monospace); font-size: var(--fs-base); }
+.list-paste__row { display: flex; gap: 10px; align-items: center; margin-top: var(--sp-2); flex-wrap: wrap; }
+.list-paste__row .form-note { margin: 0; }
+.input.invalid { border-color: var(--danger); }
+.input.invalid:focus { outline-color: var(--danger-focus); }
+.form-actions { margin-top: 20px; display: flex; align-items: center; gap: var(--sp-3); }
+.form-err { color: var(--danger); font-size: var(--fs-base); }
+.form-note { margin: var(--sp-2) 0 0; font-size: var(--fs-base); color: var(--muted); font-family: var(--font-mono, monospace); }
+.form-note.err { color: var(--danger); }
+
+.btn {
+  border: none; border-radius: var(--r-md); background: var(--accent);
+  color: var(--on-accent); font-size: var(--fs-base); padding: 10px 22px; cursor: pointer; font-family: inherit;
+  text-decoration: none; display: inline-block; line-height: 1.4;
+  transition: filter var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.btn:hover { filter: brightness(0.92); box-shadow: var(--sh-2) var(--shadow-btn); }
+.btn:active { transform: translateY(1px); filter: brightness(0.84); box-shadow: none; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+.btn:disabled:hover { filter: brightness(1); box-shadow: none; }
+.btn--ghost { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
+.btn--ghost:hover { filter: none; background: var(--ghost-hover-bg); border-color: var(--border-hover); }
+.btn--ghost:active { transform: translateY(1px); filter: none; background: var(--ghost-active-bg); }
+.btn--ghost:disabled:hover { background: var(--panel-2); border-color: var(--border); }
+.btn--sm { font-size: var(--fs-sm); padding: 5px 12px; }
+.btn--xs {
+  font-size: var(--fs-xs);
+  padding: 3px 8px;
+  line-height: 1.4;
+  border-radius: var(--r-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn--xs svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+.btn--danger { background: transparent; color: var(--danger); border: 1px solid var(--danger-border); }
+.btn--danger:hover:not(:disabled) { background: var(--danger-focus); color: var(--danger-strong); border-color: var(--danger); }
+.btn--danger:active:not(:disabled) { transform: translateY(1px); }
+.btn--danger:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--text-muted); }
+
+/* ---------- 图像化按钮(.ghost-icon-btn,参照 GeoGuide 笔法规范) ---------- */
+.ghost-icon-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: transparent;
+  cursor: pointer;
+  color: var(--muted);
+  text-decoration: none;
+  transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.ghost-icon-btn[hidden] {
+  display: none !important;
+}
+.ghost-icon-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+  border-color: var(--border);
+}
+.ghost-icon-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.ghost-icon-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.ghost-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.ghost-icon-btn--danger {
+  color: var(--danger);
+}
+.ghost-icon-btn--danger:hover,
+.ghost-icon-btn--danger:focus-visible {
+  background: var(--danger-focus);
+  color: var(--danger-strong);
+  border-color: var(--danger-border);
+}
+.ghost-icon-btn--ok {
+  color: var(--accent-2);
+}
+.ghost-icon-btn--ok:hover,
+.ghost-icon-btn--ok:focus-visible {
+  background: var(--panel-2);
+  color: var(--accent);
+  border-color: var(--border);
+}
+
+/* ---------- 登录 / 认证 ---------- */
+.auth-box {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md);
+  padding: 22px var(--sp-6); margin: var(--sp-4) 0; max-width: 460px;
+}
+.auth-title { margin: 0 0 6px; font-size: var(--fs-lg); color: var(--accent-2); }
+.auth-hint { margin: 0 0 var(--sp-4); font-size: var(--fs-base); color: var(--muted); }
+.auth-actions { display: flex; gap: var(--sp-3); margin-top: 14px; flex-wrap: wrap; }
+.auth-err { color: var(--danger); font-size: var(--fs-base); margin: 10px 0 0; }
+
+/* ---------- 列表卡片(我的提交 / 审核) ---------- */
+.list-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md);
+  padding: var(--sp-4) 20px; margin: var(--sp-3) 0;
+}
+.list-card--corner {
+  position: relative;
+  overflow: hidden;
+}
+/* 左上角状态三角(参照 geoguide my-submissions) */
+.card-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20px 20px 0 0;
+  border-color: var(--muted) transparent transparent transparent;
+  z-index: 2;
+  cursor: help;
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+.card-corner:hover {
+  opacity: 0.8;
+}
+.card-corner--approved {
+  border-color: var(--ok) transparent transparent transparent;
+}
+.card-corner--pending {
+  border-color: var(--accent) transparent transparent transparent;
+}
+.card-corner--rejected {
+  border-color: var(--danger) transparent transparent transparent;
+}
+.card-corner--trash {
+  border-color: var(--muted) transparent transparent transparent;
+}
+
+/* 标题与年份并排单行(省掉原本独立的 head 一整行) */
+.list-card__title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 4px;
+}
+.list-card__title-row .list-card__title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* 覆盖 .list-card__title 的 -webkit-box/line-clamp:否则 nowrap 下省略号不保证出现 */
+  display: block;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-card__title-row .list-card__year {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.list-card__meta-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  line-height: 1.3;
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+  color: var(--accent-2);
+  border: 1px solid var(--border);
+  font-weight: 500;
+  vertical-align: 1px;
+  margin-left: 4px;
+}
+.list-card__head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.list-card__year { font-size: var(--fs-base); color: var(--muted); font-variant-numeric: tabular-nums; }
+.list-card__title {
+  margin: 6px 0 2px; font-size: var(--fs-lg); font-weight: 600; line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.list-card__meta { font-size: var(--fs-base); color: var(--muted); overflow-wrap: anywhere; }
+.list-card__reject { margin-top: 6px; font-size: var(--fs-base); color: var(--danger); }
+.list-card__links { margin-top: var(--sp-2); display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.mini-link { font-size: var(--fs-xs); color: var(--link); border: 1px solid var(--border-link); border-radius: var(--r-sm); padding: 2px 8px; text-decoration: none; }
+.mini-link:hover { text-decoration: underline; }
+.list-card__actions { margin-top: var(--sp-3); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+/* 修改/删除 次级小按钮(右对齐,弱于通过/驳回;2026-09-07) */
+.list-card__actions-sub { display: inline-flex; gap: 4px; align-items: center; flex-wrap: wrap; margin-left: auto; }
+.act-mini {
+  border: 1px solid transparent; background: transparent; color: var(--muted);
+  font-size: var(--fs-xs); padding: 3px 10px; border-radius: var(--r-md); cursor: pointer; font-family: inherit; line-height: 1.5;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.act-mini:hover { color: var(--accent-2); background: var(--panel); border-color: var(--border-soft); }
+.act-mini--del { color: var(--danger); }
+.act-mini--del:hover { color: var(--danger-strong); background: var(--panel); border-color: var(--danger-border); }
+/* 歌曲/逐曲时间轴收进下拉(仿 singer 弹窗;2026-09-07) */
+.list-card__songs-fold,
+.list-card__tracks-fold { margin-top: 6px; font-size: var(--fs-xs); }
+.list-card__songs-fold summary,
+.list-card__tracks-fold summary {
+  cursor: pointer; color: var(--muted); user-select: none; display: inline-block;
+  border: 1px dashed var(--border); border-radius: var(--r-md); padding: 2px var(--sp-3);
+  transition: color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.list-card__songs-fold summary:hover,
+.list-card__tracks-fold summary:hover { color: var(--accent-2); border-color: var(--border-hover); }
+.list-card__songs-fold[open] summary,
+.list-card__tracks-fold[open] summary { color: var(--accent-2); border-style: solid; }
+.list-card__songs-fold .list-card__links,
+.list-card__tracks-scroll,
+.list-card__songs--scroll {
+  margin-top: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  padding-right: 2px;
+}
+.list-card__tracks-scroll .tag-chip,
+.list-card__songs-fold .tag-chip,
+.list-card__songs--scroll .song-tag { font-size: var(--fs-xs); padding: 2px var(--sp-3); line-height: 1.5; }
+.empty { color: var(--muted); font-size: var(--fs-base); padding: 20px 0; }
+.empty a { color: var(--link); }
+/* profile 我的收藏区(09-08):外层 zone 承载「我的收藏」列表,内部条目为精简卡 */
+.list-card--zone { margin-top: var(--sp-4); }
+.list-card--zone > .list-card__title { margin-bottom: 6px; }
+/* 2026-09-14:一行四个(用户明确要求「一行四个」)。列数是显式断点而非 auto-fill ——
+   auto-fill 会在某些宽度悄悄变 3,而用户要的是确定性的四列。minmax(0,1fr) 让轨道能被
+   长标题压窄(否则 min-content 撑破网格);空态 / 无命中是裸 <p>,得显式跨整行。 */
+#fav-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3); }
+@media (max-width: 1019px) { #fav-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+#fav-list > .list-card__meta { grid-column: 1 / -1; }
+#fav-list .list-card { margin: 0; padding: var(--sp-3) 14px; }
+#fav-list .list-card__title { font-size: var(--fs-base); }
+#fav-list .list-card__meta,
+#fav-list .list-card__year { font-size: var(--fs-xs); }
+#fav-list .fav-title { color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+#fav-list .fav-title:hover { text-decoration: underline; }
+/* 2026-09-15:取消收藏从文字按钮改为五角星(.perf-fav,已带 margin-left:auto 靠右),
+   收藏卡不再产出 .list-card__actions → 原有 `#fav-list .list-card__actions` 规则已成死规则,删除。
+   卡片高度随之变矮(少一行按钮),四列网格下的等高由 grid stretch 保证。 */
+/* 移动端修复(AC12):标题链是独立链接,实测高 17px < 24px。padding 撑开命中区、负 margin
+   抵消布局位移 —— 视觉零变化,点按区 17 → 25px。 */
+#fav-list .fav-title { display: inline-block; padding: 4px 0; margin: -4px 0; }
+@media (max-width: 640px) { #fav-list { grid-template-columns: 1fr; } }
+
+/* 收藏区工具条(2026-09-14):全量搜索 + 计数。有收藏才显示。 */
+/* margin-bottom 2026-09-15 加:此前工具条与下方卡片结构间距为 0(实测 bar.bottom == 首卡 top),
+   卡片像贴着搜索栏。用 --sp-4 与 .fav-pager 的上边距同档。 */
+.fav-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); margin-top: var(--sp-3); margin-bottom: var(--sp-4); }
+.fav-bar[hidden] { display: none; }
+/* 搜索框复用歌手页的 .searchbox 组件(2026-09-15 改;原为裸 .input + .fav-search__clear)。
+   唯一偏离:歌手页的 .searchbox__input 定宽 200px —— 那边输入框没有 placeholder;
+   这里的 placeholder 要写全「标题 / 城市 / 日期 / 类型 / 歌手」,200px 会被截断,故仅本页加宽。 */
+#fav-bar .searchbox__input { width: 320px; max-width: 100%; }
+@media (max-width: 640px) { #fav-bar .searchbox__input { width: 100%; } }
+/* 提示语只在聚焦时出现(2026-09-15,用户要求):静止时输入框干净无字,点进去才显示这串字。
+   用 opacity 而非摘掉 placeholder 属性 —— 属性留着,读屏仍能读到「能搜什么」,
+   键盘/视觉用户点进来也能立刻看到。不加过渡:这是"点开才出现"的瞬时披露,不是动画。 */
+#fav-bar .searchbox__input::placeholder { opacity: 0; }
+#fav-bar .searchbox__input:focus::placeholder { opacity: 1; }
+
+/* 收藏卡上的取消星(2026-09-15):比弹窗里那枚小一圈,且**去掉圆形底**。
+   .perf-fav 的 --star-wash 圆底是弹窗里「这场已收藏」的状态指示;而收藏列表整屏都是已收藏,
+   那层底只会变成一片重复的黄色圆点 —— 星形本身已足够表达状态。
+   仅限定 #fav-list,不动 .perf-fav 的既有定义(歌手页弹窗共用,改它会波及那边)。 */
+#fav-list .fav-share-btn {
+  margin-left: auto; width: 28px; height: 28px; color: var(--muted); border: 0; background: transparent;
+}
+#fav-list .fav-share-btn svg { width: 16px; height: 16px; }
+#fav-list .fav-share-btn:hover { color: var(--accent-2); background: transparent; }
+#fav-list .fav-share-btn + .perf-fav { margin-left: 0; }
+#fav-list .perf-fav { width: 28px; height: 28px; background: transparent; }
+#fav-list .perf-fav svg { width: 18px; height: 18px; }
+#fav-list .perf-fav.on { background: transparent; }
+/* 去掉底色后得另给 hover 反馈,否则这颗星悬停时毫无变化。颜色转 --accent-2
+   (与 .perf-fav:hover 同款语义)。限定 hover:hover —— 触摸设备没有"移开"动作,
+   会让颜色粘住(站内 @media (hover: none) 那段也是同一个理由)。 */
+@media (hover: hover) {
+  #fav-list .perf-fav:hover, #fav-list .perf-fav.on:hover { background: transparent; color: var(--accent-2); }
+}
+.fav-bar__count { margin: 0; font-size: var(--fs-base); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* 分页控件(2026-09-14):上一页 / 第 X / Y 页 / 下一页;≤1 页隐藏。 */
+.fav-pager { display: flex; align-items: center; justify-content: center; gap: var(--sp-4); margin-top: var(--sp-4); }
+.fav-pager[hidden] { display: none; }
+.fav-pager__pos { font-size: var(--fs-base); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* 账号设置弹窗(2026-09-14):内容为两段 .profile-editor__group,组间距沿用其自身规则。
+   C-1(硬约束):不得改 .modal* 既有规则(歌手页 / 提交页共用)—— 这里只加限定作用域的新规则。 */
+body.has-dialog { overflow: hidden; }                       /* 锁背景滚动:profile 专属类,不动 .modal-open */
+body.has-dialog .modal-body { overscroll-behavior: contain; }
+
+/* ---------- 个人中心档案头(09-12 profile-redesign)----------
+   结构镜像首页 .masthead(头像 112px 左 + 身份右),而非 geoguide 的同尺寸卡片阵列。
+   头部底部那条线分隔「头部」与「后续区块」两组不同实体,成立;账号档案内部不再画线。 */
+.profile-hero {
+  display: flex; align-items: flex-start; gap: var(--sp-6);
+  padding-bottom: var(--sp-6); border-bottom: 1px solid var(--border);
+}
+.profile-hero__avatar-wrap {
+  position: relative;
+  flex: none;
+}
+.profile-hero__avatar {
+  position: relative; flex: none; padding: 0; border: none; background: none;
+  cursor: pointer; display: inline-flex; border-radius: 50%; line-height: 0;
+}
+.profile-hero__face {
+  width: 112px; height: 112px; display: grid; place-items: center;
+  border-radius: 50%; overflow: hidden; object-fit: cover;
+  border: 1px solid var(--border); background: var(--panel);
+}
+.profile-hero__face img,
+.profile-hero__face svg { width: 100%; height: 100%; display: block; object-fit: cover; }
+/* 复用 .masthead__avatar--fallback 的底/字色;此处显式补回它被 .profile-hero__face 覆盖的 --panel-2 */
+.profile-hero__face.masthead__avatar--fallback { background: var(--panel-2); }
+.profile-hero__edit {
+  position: absolute; right: 0; bottom: 0; width: 30px; height: 30px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); border: 2px solid var(--panel);
+}
+.profile-hero__edit svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.profile-hero__id { flex: 1; min-width: 0; }
+.profile-hero__head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); }
+.profile-hero__name { margin: 0; font-size: var(--fs-2xl); font-weight: 700; line-height: 1.15; color: var(--text); overflow-wrap: anywhere; }
+.profile-hero__meta { margin: var(--sp-2) 0 0; font-size: var(--fs-base); color: var(--muted); }
+.profile-hero__actions { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-3); }
+.profile-hero__actions .ghost-icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-md);
+  color: var(--muted);
+  border: 0;
+  background: transparent;
+}
+.profile-hero__actions .ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+.profile-hero__actions #admin-link:hover {
+  color: var(--accent);
+}
+/* [hidden] 守卫:.btn / .role-chip 自带 display,会盖过 UA 的 [hidden]{display:none}(全站同款陷阱) */
+#admin-link[hidden],
+#profile-role[hidden] { display: none; }
+
+/* 个人中心头像浮动下拉窗口 */
+.avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: var(--z-pop);
+  width: 280px;
+  max-width: 90vw;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px;
+  box-shadow: var(--sh-2) var(--shadow-black-18);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.avatar-dropdown[hidden] { display: none; }
+.avatar-dropdown__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.avatar-dropdown__title {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+.avatar-upload-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  border: 0;
+  background: transparent;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.avatar-upload-btn:hover {
+  background: var(--panel-2);
+  color: var(--accent);
+}
+.avatar-upload-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 编辑面板(改用户名 / 换头像),互斥展开;display:grid 必须自带 [hidden] 守卫 */
+.profile-editor {
+  display: grid; gap: var(--sp-3); margin-top: var(--sp-4);
+  padding: var(--sp-4); max-width: 560px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md);
+}
+.profile-editor[hidden] { display: none; }
+.profile-editor__title { margin: 0; font-size: var(--fs-base); font-weight: 600; color: var(--text); }
+.profile-editor__hint { margin: 0; font-size: var(--fs-base); color: var(--muted); }
+.profile-editor__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+.profile-editor__msg { margin: 0; font-size: var(--fs-base); color: var(--danger); }
+.profile-editor__msg.is-ok { color: var(--ok); }
+.profile-editor__msg.is-info { color: var(--muted); }
+/* 账号设置(2026-09-14 起在 #account-modal 弹窗内):两组设置(用户名 / 密码) */
+.profile-editor__group { display: grid; gap: var(--sp-3); }
+/* 两组之间只靠间距断开,不加分隔线 —— 两组是同一张设置单里的两段,与 2026-09-11
+   删掉的那批「切开同一实体的横线」同一取向 */
+.profile-editor__group + .profile-editor__group { margin-top: var(--sp-4); }
+
+.avatar-picker { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.avatar-choice {
+  width: 52px; height: 52px; padding: 0; cursor: pointer; overflow: hidden;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--panel-2); border: 2px solid var(--border);
+  transition: border-color var(--dur-1) var(--ease-out);
+}
+.avatar-choice svg { width: 100%; height: 100%; display: block; }
+.avatar-choice:hover { border-color: var(--border-hover); }
+.avatar-choice.is-on { border-color: var(--accent); }
+
+.profile-zone { margin-top: var(--sp-8); }
+.profile-zone__title { margin: 0 0 var(--sp-3); font-size: var(--fs-lg); font-weight: 600; color: var(--text); }
+
+@media (max-width: 720px) {
+  .profile-hero { flex-direction: column; align-items: center; text-align: center; gap: var(--sp-4); }
+  .profile-hero__head { justify-content: center; }
+  .profile-hero__actions { justify-content: center; }
+  .profile-hero__face { width: 88px; height: 88px; }
+  /* 头像居中后 left:0 会让 280px 浮层越出视口右侧 → 以头像中心对齐 */
+  .avatar-dropdown { left: 50%; transform: translateX(-50%); }
+}
+
+/* ---------- 状态徽标 ---------- */
+.status { font-size: var(--fs-base); padding: 3px var(--sp-3); border-radius: var(--r-md); border: 1px solid var(--border); color: var(--muted); }
+.status--pending { background: var(--status-pending-bg); color: var(--status-pending-fg); border-color: var(--status-pending-border); }
+.status--approved { background: var(--status-approved-bg); color: var(--status-approved-fg); border-color: var(--status-approved-border); }
+.status--rejected { background: var(--status-rejected-bg); color: var(--danger); border-color: var(--status-rejected-border); }
+.status--draft { background: var(--status-draft-bg); color: var(--status-draft-fg); border-color: var(--status-draft-border); }
+
+/* ---------- 审核 ---------- */
+.review-tabs { display: flex; gap: 10px; margin: 18px 0; flex-wrap: wrap; }
+.review-toolbar { display: flex; justify-content: flex-end; margin: calc(-1 * var(--sp-2)) 0 var(--sp-3); }
+.review-tab {
+  border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+  border-radius: var(--r-md); padding: var(--sp-2) 20px; font-size: var(--fs-base); cursor: pointer; font-family: inherit;
+  transition: filter var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.review-tab:hover:not(.active) { background: var(--panel-2); color: var(--text); border-color: var(--border-hover); }
+.review-tab:active { transform: translateY(1px); }
+.review-tab.active { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.review-tab.active:hover { filter: brightness(0.94); }
+
+/* 演出提交栏目条:状态分段 + 歌手筛选(2026-09-07) */
+.review-subbar {
+  display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap;
+  margin: -6px 0 var(--sp-3); padding: var(--sp-2) var(--sp-3);
+  background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r-md);
+}
+.review-subbar[hidden] { display: none; }
+.review-status { display: inline-flex; gap: var(--sp-1); flex-wrap: wrap; }
+.review-status__seg {
+  border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+  border-radius: var(--r-md); padding: 5px var(--sp-4); font-size: var(--fs-base); cursor: pointer; font-family: inherit;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.review-status__seg:hover:not(.active) { color: var(--text); border-color: var(--border-hover); }
+.review-status__seg.active { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.review-singer { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-base); color: var(--muted); margin-left: auto; }
+.review-singer .input { width: auto; min-width: 170px; padding: 6px 10px; font-size: var(--fs-xs); }
+
+/* 审核页 + 我的提交:提交卡片一行 4 个,放不下缩小字号,网格行严格等高且操作栏靠底对齐 */
+#review-list, #mine-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); align-items: stretch; }
+#review-list .list-card, #mine-list .list-card {
+  margin: 0; padding: var(--sp-3) 14px;
+  display: flex; flex-direction: column; height: 100%; box-sizing: border-box;
+}
+#review-list .list-card__title, #mine-list .list-card__title { font-size: var(--fs-base); }
+#review-list .list-card__year, #mine-list .list-card__year,
+#review-list .list-card__meta, #mine-list .list-card__meta,
+#review-list .list-card__reject, #mine-list .list-card__reject,
+#review-list .mini-link, #mine-list .mini-link { font-size: var(--fs-xs); }
+#review-list .list-card__actions, #mine-list .list-card__actions {
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}
+#review-list .btn--sm, #mine-list .btn--sm {
+  font-size: var(--fs-xs);
+  padding: 4px 10px;
+}
+
+/* 用户卡片:顶栏严格单行锁死(站主标签与名字弹性收缩，开关紧贴右侧不换行) */
+.user-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+}
+.user-card__identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.user-card__title {
+  margin: 0; /* 覆盖 .list-card__title 的 6px/2px 外边距,与同行的角色开关垂直对齐 */
+  display: block; /* 覆盖 -webkit-box,确保 nowrap 省略号生效 */
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.user-card__head .role-switch {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* 用户卡片字号阶梯:名字大而加粗，注册日期弱化小灰字，指标带状态色彩 */
+.user-card__created {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-top: 6px;
+}
+.user-card__stats {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-top: 4px;
+}
+.user-card__stat--approved { color: var(--ok); font-weight: 600; }
+.user-card__stat--pending { color: var(--accent); font-weight: 600; }
+.user-card__stat--rejected { color: var(--danger); font-weight: 600; }
+
+/* 用户管理操作:纯矢量图标化(零文字、零边框、零底色，高对比红防融为一体) */
+.list-card__actions--user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}
+.list-card__actions--user .ghost-icon-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0;
+}
+.list-card__actions--user .ghost-icon-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.list-card__actions--user .ghost-icon-btn--danger {
+  color: var(--danger);
+}
+.list-card__actions--user .ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+.list-card__actions--user .ghost-icon-btn--danger:hover {
+  background: var(--danger-focus);
+  color: var(--danger-strong);
+}
+
+/* 审核页 + 我的提交:顶栏严格单行锁死，徽章与提交者居左打点，年份靠右 */
+#review-list .list-card__head,
+#mine-list .list-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+.list-card__head-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.list-card__submitter {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+}
+#review-list .list-card__year,
+#mine-list .list-card__year {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 草稿演出来源专属提示行 */
+.list-card__draft-origin {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  color: var(--accent-2);
+  margin: 2px 0 4px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.list-card__draft-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+}
+.list-card__draft-arrow {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* 我的提交:底部操作纯矢量图标靠右对齐 */
+#mine-list .list-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}
+#mine-list .list-card__actions .ghost-icon-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0;
+}
+#mine-list .list-card__actions .ghost-icon-btn--danger {
+  color: var(--danger);
+}
+#mine-list .list-card__actions .ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+#mine-list .list-card__actions .ghost-icon-btn--danger:hover {
+  background: var(--danger-focus);
+  color: var(--danger-strong);
+}
+
+/* 审核页卡片操作栏与回收站按钮图标化 */
+#review-list .list-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}
+#review-list .list-card__actions .ghost-icon-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0;
+}
+#review-list .list-card__actions .ghost-icon-btn--danger {
+  color: var(--danger);
+}
+#review-list .list-card__actions .ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+#review-list .list-card__actions .ghost-icon-btn--danger:hover {
+  background: var(--danger-focus);
+  color: var(--danger-strong);
+}
+#review-list .status, #mine-list .status { font-size: var(--fs-xs); padding: 2px 10px; }
+#mine-list[hidden], #review-list[hidden] { display: none; }
+
+/* 响应式断点:中屏 2 列,窄屏 1 列 */
+@media (max-width: 1024px) {
+  #review-list, #mine-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  #review-list, #mine-list { grid-template-columns: 1fr; }
+}
+
+/* ---------- 弹窗里建议修改 ---------- */
+/* 卡片底部动作行:建议修改/补充(左)+ 贡献署名(同行右侧)。署名过长换行时靠右 */
+.perf-foot { margin-top: var(--sp-3); display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-3); }
+.perf-edit { font-size: var(--fs-xs); flex: none; }
+.perf-edit a { color: var(--link); text-decoration: none; }
+.perf-edit a:hover { text-decoration: underline; }
+
+/* ---------- 提交页:坐标辅助 ---------- */
+.field-note { font-style: normal; color: var(--muted); font-size: var(--fs-base); }
+
+/* ---------- 标签系统 ---------- */
+
+/* 歌手页筛选:单按钮 + 大面板(每类别一列,并排同屏可见;后续类别自动加列) */
+.filter-mega { position: relative; display: inline-block; }
+/* 筛选入口:geoguessr 同款滑杆图标钮(2026-09-08;2026-09-10 去边去底改幽灵钮,与搜索放大镜同款)。
+   已选标签数仍用右上角标显示;展开/选中态只以图标色表意,不再给按钮画框/底。 */
+.filter-mega__toggle {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; padding: 0;
+  border: none; background: transparent; color: var(--muted);
+  border-radius: 50%; cursor: pointer; font-family: inherit;
+  transition: color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.filter-mega__toggle svg { width: 20px; height: 20px; display: block; fill: currentColor; }
+.filter-mega__toggle:hover { color: var(--text); background: var(--accent-wash); }
+.filter-mega__toggle.is-active { color: var(--accent-2); }
+.filter-mega__toggle[aria-expanded="true"] { color: var(--accent-2); }
+.filter-mega__count {
+  position: absolute; top: -6px; right: -6px; min-width: 17px; height: 17px; padding: 0 5px;
+  border-radius: var(--r-md); background: var(--accent); color: var(--on-accent); font-size: var(--fs-xs); line-height: 17px;
+  text-align: center; font-weight: 700; font-variant-numeric: tabular-nums;
+  box-sizing: border-box; pointer-events: none;
+}
+.filter-mega__count[hidden] { display: none; }
+/* 面板展开时角标让位(面板本身即展示选择) */
+.filter-mega__toggle[aria-expanded="true"] .filter-mega__count { display: none; }
+.filter-mega__panel {
+  position: absolute; z-index: var(--z-panel); top: calc(100% + 8px); left: 0;
+  width: max-content; max-width: min(720px, calc(100vw - 40px));
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-lg);
+  box-shadow: var(--sh-2) var(--shadow-18); padding: var(--sp-3) 14px; /* S4a:面板 12px 影,不与 1px 边形成 hairline+wide */
+}
+.filter-mega__panel[hidden] { display: none; }
+.filter-mega__cols {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr);
+  gap: var(--sp-1) 20px; max-width: 100%; overflow-x: auto;
+}
+.filter-mega__col { min-width: 150px; }
+.filter-mega__col-title {
+  margin: 0 0 6px; font-size: var(--fs-xs); color: var(--muted); font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.filter-mega__search {
+  width: 100%; margin-bottom: 6px; padding: var(--sp-1) var(--sp-2); font-size: var(--fs-xs);
+  border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); color: var(--text);
+}
+.filter-mega__list {
+  max-height: min(46vh, 420px); overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.filter-mega__item {
+  display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-1) 6px;
+  font-size: var(--fs-base); color: var(--text); cursor: pointer; border-radius: var(--r-md); white-space: nowrap;
+}
+.filter-mega__item:hover { background: var(--panel-2); }
+/* 项目无全局 [hidden] 规则;item 是 display:flex,须自带 [hidden] 覆盖,否则快速过滤隐藏失效 */
+.filter-mega__item[hidden] { display: none; }
+.filter-mega__item input { flex: none; }
+.filter-mega__clear {
+  margin-top: 10px; border: 1px solid var(--border); background: var(--panel);
+  color: var(--muted); border-radius: var(--r-md); padding: 5px 14px; font-size: var(--fs-xs);
+  cursor: pointer; font-family: inherit;
+}
+.filter-mega__clear:hover { background: var(--panel-2); color: var(--accent-2); }
+
+/* 标签 chip(选择器 / 弹窗 / 审核) */
+.tag-chip {
+  display: inline-block; border: 1px solid var(--border); background: var(--panel);
+  color: var(--muted); border-radius: var(--r-sm); padding: 3px 10px; font-size: var(--fs-xs);
+  cursor: pointer; font-family: inherit; line-height: 1.5; transition: all var(--dur-2) var(--ease-out);
+}
+.tag-chip.active { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.tag-chip.readonly, .tag-chip.static { cursor: default; }
+/* 只读态的非颜色区分(2026-09-10):虚线边框。此前只靠背景色差(1.10–1.15:1)与
+   cursor 区分,不满足 R5「不得仅以颜色传达状态」;虚线是形状线索,克制、不动布局。 */
+.tag-chip.readonly { background: var(--panel-2); color: var(--muted); border-style: dashed; }
+.tag-chip:not(.readonly):not(.static):hover { background: var(--panel-2); color: var(--accent-2); border-color: var(--border-hover); }
+.tag-chip:not(.readonly):not(.static):active { transform: translateY(1px); }
+.tag-chip.active:hover { filter: brightness(0.94); }
+.tag-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 提交页·歌曲「已收录可点选」芯片(点一下加入,再点一下移除;已加入高亮 active) */
+.song-pick { margin-top: var(--sp-2); }
+.song-pick .field-note { margin-bottom: var(--sp-2); }
+
+/* 提交页·预填检查(R11,2026-09-10):由独立 .prefill-* 收敛进全站 .modal / .modal-card /
+   .modal-head / .modal-body 体系(submit.html 现加载 modal.js)。此处只保留摘要列表本体。 */
+#prefill-summary { margin: 10px 0 var(--sp-1); padding: 0; list-style: none; }
+#prefill-summary li { padding: var(--sp-1) 0; font-size: var(--fs-base); border-bottom: 1px dashed var(--border); }
+#prefill-summary li:last-child { border-bottom: none; }
+#prefill-summary .prefill-label { color: var(--muted); margin-right: var(--sp-2); }
+#prefill-summary .prefill-val { color: var(--text); word-break: break-word; }
+#prefill-summary .prefill-note { color: var(--danger); font-style: italic; }
+#modal #prefill-ok { margin-top: var(--sp-3); }
+
+/* 弹窗演出卡片标签 */
+.perf-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 标签组(提交选择器 / 已通过编辑器) */
+.tag-group { margin: 8px 0; }
+.tag-group__name { display: block; font-size: var(--fs-xs); font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+
+/* 提交页标签区 */
+.tags-editor { margin-top: 14px; border: 1px dashed var(--border); border-radius: var(--r-md); padding: 12px var(--sp-3); }
+.tags-editor legend { font-size: var(--fs-sm); color: var(--muted); padding: 0 var(--sp-2); }
+.tag-picker .tag-group { margin-top: 6px; }
+.propose-box { margin-top: var(--sp-2); border-top: 1px dashed var(--border); padding-top: 8px; }
+.propose-hint { margin: 0 0 6px; font-size: var(--fs-xs); color: var(--muted); }
+.propose-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.propose-row .input { flex: 1; min-width: 140px; padding: 5px 10px; font-size: var(--fs-sm); border-radius: var(--r-sm); }
+
+/* 标签管理器 */
+.tag-manager { margin-top: 14px; }
+.tag-manager__section {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md);
+  padding: var(--sp-3) 16px; margin: 10px 0;
+}
+.tag-manager__section h3 { margin: 0 0 8px; font-size: var(--fs-sm); font-weight: 600; color: var(--accent-2); letter-spacing: 0.02em; }
+.tag-manager__row { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; margin: 4px 0; font-size: var(--fs-sm); }
+.tag-manager .input { padding: 5px 10px; font-size: var(--fs-sm); border-radius: var(--r-sm); }
+.tag-manager__row .input { flex: 1; min-width: 140px; }
+.tag-manager__cat { border-top: 1px dashed var(--border); padding: 8px 0; }
+.tag-manager__cat:first-child { border-top: none; }
+.tag-manager__tag { margin: 3px 0; }
+.tag-manager__tag .input { max-width: 220px; font-size: var(--fs-sm); padding: 4px 8px; }
+/* 行内别名输入框:紧随名称之后,稍宽以容纳多个顿号分隔别名;输入即显示已存别名 */
+.tag-manager__tag .tag-alias-input { flex: 0 1 280px; max-width: 320px; min-width: 160px; font-size: var(--fs-xs); padding: 4px 8px; }
+#tm-proposals { font-size: var(--fs-sm); }
+#tm-proposals .tag-manager__row span { font-size: var(--fs-xs); color: var(--text); }
+
+/* 已通过演出标签编辑器 */
+.perf-tag-editor {
+  margin-top: 10px; padding: var(--sp-3) 14px; background: var(--panel-2);
+  border-radius: var(--r-md);
+}
+.perf-tag-editor .btn { margin-top: 10px; }
+
+/* ---- 已通过演出标签编辑器:年份/形式字段行 + 歌曲 picked/下拉(R2/R3) ---- */
+.perf-tag-editor .perf-fields { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin: 2px 0 6px; }
+.perf-tag-editor .perf-fields .field { margin: 0; min-width: 150px; }
+.perf-tag-editor .perf-songs { margin: var(--sp-1) 0 10px; }
+.perf-tag-editor .perf-songs__picked { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.perf-song-chip { display: inline-flex; align-items: center; padding: 2px 6px 2px 10px; }
+/* 可点面积 ≥24×24(WCAG 2.2 / R9):S5 把内容换成 10px 内联 SVG 后,按钮随 svg 行高塌成
+   20×10。min-* 撑到 24×24;margin-block:-3px 抵消多出的 6px,使 chip 高度维持修复前的 24px
+   (否则 chip 会被撑到 30px,连带审核列表行高变大)。-3 = (24 − 12px×1.5 行高)/2。 */
+.perf-song-chip__x { margin-left: 6px; margin-block: -3px; min-width: 24px; min-height: 24px; padding: 0 5px; border: none; background: transparent; color: inherit; cursor: pointer; line-height: 1; border-radius: var(--r-sm); display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+.perf-song-chip__x svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.perf-song-chip__x:hover { background: var(--shadow-black-12); }
+.perf-tag-editor .perf-songs__addrow { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.perf-tag-editor .song-add { flex: 1; min-width: 240px; max-width: 420px; }
+
+/* 已通过/待审核卡片「修改」展开面板:整体收紧(2026-09-07) */
+.perf-tag-editor { margin-top: var(--sp-2); padding: var(--sp-2) 10px; }
+.perf-tag-editor .perf-fields { gap: 10px; margin: 0 0 var(--sp-1); }
+.perf-tag-editor .perf-fields .field { min-width: 108px; font-size: var(--fs-xs); gap: 3px; }
+.perf-tag-editor .perf-fields .field > span { font-size: var(--fs-xs); }
+.perf-tag-editor .input { padding: 6px 10px; font-size: var(--fs-xs); border-radius: var(--r-md); }
+.perf-tag-editor .tag-group { margin: 6px 0; }
+.perf-tag-editor .tag-group__name { font-size: var(--fs-xs); margin-bottom: var(--sp-1); }
+.perf-tag-editor .tag-chip { font-size: var(--fs-xs); padding: 2px 10px; line-height: 1.5; }
+.perf-tag-editor .perf-songs__picked { gap: 6px; margin-bottom: 6px; }
+.perf-tag-editor .perf-song-chip__x svg { width: 10px; height: 10px; }
+.perf-tag-editor .list-card__meta { font-size: var(--fs-xs); }
+.perf-tag-editor .btn { font-size: var(--fs-xs); padding: 5px 14px; margin-top: var(--sp-2); }
+
+/* ---- 醒目的错误状态展示 (如服务器错误 / 网络异常) ---- */
+.state-error,
+.empty.empty--error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--sp-8) var(--sp-6);
+  margin: var(--sp-6) auto;
+  max-width: 520px;
+  background: var(--status-rejected-bg);
+  border: 1.5px solid var(--danger-border);
+  border-radius: var(--r-lg);
+  box-shadow: 0 4px 20px var(--shadow-18);
+  animation: stateErrorFadeIn var(--dur-2) var(--ease-out);
+}
+@keyframes stateErrorFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.state-error__icon {
+  width: 44px;
+  height: 44px;
+  color: var(--danger);
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.state-error__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.state-error__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--danger);
+  margin: 0 0 var(--sp-2);
+  letter-spacing: 0.02em;
+}
+.state-error__msg {
+  font-size: var(--fs-base);
+  color: var(--text);
+  margin: 0 0 var(--sp-4);
+  line-height: 1.6;
+  word-break: break-word;
+  max-width: 440px;
+}
+.state-error__retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 20px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  border-radius: var(--r-md);
+  border: 1px solid var(--danger);
+  background: var(--panel);
+  color: var(--danger);
+  cursor: pointer;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.state-error__retry:hover {
+  background: var(--danger);
+  color: var(--white);
+  box-shadow: 0 2px 8px var(--shadow-btn);
+}
+
+/* ---- 独立「歌曲」管理一级模块 (仿照「我的提交」UI 规范) ---- */
+.song-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.song-select-all-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+.song-select-all-wrap:hover {
+  color: var(--text);
+}
+.song-select-all-wrap input {
+  cursor: pointer;
+}
+.song-batch-del {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  border-radius: var(--r-sm);
+}
+.song-batch-del svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.song-batch-del[hidden] {
+  display: none !important;
+}
+
+/* 新增歌曲折叠面板 */
+.song-add-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  box-shadow: 0 4px 14px var(--shadow-12);
+  animation: songAddPanelIn var(--dur-2) var(--ease-out);
+}
+.song-add-panel[hidden] {
+  display: none !important;
+}
+@keyframes songAddPanelIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.song-add-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: var(--fs-base);
+  color: var(--text);
+}
+.song-add-panel__row {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.song-add-panel__row .input {
+  font-size: var(--fs-sm);
+}
+.song-add-panel textarea.input {
+  min-height: 70px;
+  resize: vertical;
+}
+.song-add-panel__actions {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+/* 歌曲网格: 每一行放四首歌 */
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+@media (max-width: 1080px) {
+  .song-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+  .song-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .song-grid { grid-template-columns: 1fr; }
+}
+
+/* 歌曲卡片 —— 紧凑精炼双层卡片 */
+.song-card {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+}
+.song-card:hover {
+  border-color: var(--border-link);
+  box-shadow: 0 2px 8px var(--shadow-12);
+}
+.song-card.is-selected {
+  border-color: var(--accent);
+  background: rgba(211, 84, 0, 0.05);
+}
+.song-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.song-card__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.song-card__cb {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+}
+.song-card__name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+.song-card__perf-count {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.song-card__aliases {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.2;
+}
+.song-card__alias-label {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+.song-alias-chip {
+  display: inline-block;
+  font-size: 11px;
+  padding: 0 4px;
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+  color: var(--muted);
+  border: 1px solid var(--border-soft);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.song-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.song-card__singer {
+  font-size: var(--fs-xs);
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.song-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.song-card__actions .ghost-icon-btn {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: var(--r-sm);
+  color: var(--muted);
+}
+.song-card__actions .ghost-icon-btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+.song-card__actions .ghost-icon-btn--danger {
+  color: var(--danger);
+}
+.song-card__actions .ghost-icon-btn--danger:hover {
+  background: var(--danger-focus);
+  color: var(--danger-strong);
+}
+.song-card__actions .ghost-icon-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* 小号文字操作 */
+.mini-act { border: 0; background: transparent; padding: 0 4px; font: inherit; font-size: var(--fs-xs); line-height: 2; color: var(--link); cursor: pointer; border-radius: var(--r-sm); white-space: nowrap; }
+.mini-act:hover:not(:disabled) { text-decoration: underline; background: var(--shadow-black-05); }
+.mini-act--del { color: var(--danger); }
+.mini-act--del:hover:not(:disabled) { color: var(--danger-strong); }
+.mini-act--ok { color: var(--accent-2); font-weight: 600; }
+.mini-act:disabled { opacity: 0.5; cursor: default; }
+
+/* 待审批提案 checkbox */
+.review-item__tag-checkbox { flex: none; }
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 640px) {
+  /* 顶栏紧凑化:降低 padding 与间距,保证 360px 下单行显示不折行 */
+  .topnav .wrap {
+    padding-top: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    gap: 8px;
+  }
+  .topnav__brand {
+    font-size: var(--fs-sm);
+  }
+  .topnav__links {
+    gap: 12px;
+  }
+  .topnav__links a {
+    font-size: var(--fs-xs);
+  }
+  .theme-toggle {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 防御 iOS Safari 表单输入聚焦时视口被强制放大 (必须 ≥16px) */
+  input[type="text"],
+  input[type="search"],
+  input[type="url"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select,
+  .input,
+  .filter-mega__search,
+  .searchbox__input,
+  .my-filter-row .searchbox__input,
+  .song-filter-row .searchbox__input {
+    font-size: 16px !important;
+  }
+
+  .masthead { padding: var(--sp-6) 0 var(--sp-4); }
+  .masthead__name { font-size: var(--fs-2xl); }
+  .masthead__head { gap: var(--sp-1); }
+  /* 窄屏头像降一档,给姓名/英文名留出更多横向空间 */
+  .masthead__hero { gap: var(--sp-4); }
+  .masthead__avatar { width: 88px; height: 88px; }
+
+  /* 提交页链接与时间轴:解除 min-width 约束,支持自适应折行防溢出 */
+  .link-row .link-label { width: 100%; }
+  .link-row .link-url { width: 100%; min-width: 0; }
+  .link-row__main { flex-wrap: wrap; gap: 8px; }
+  .link-row__thumb { order: 3; }
+  .link-row .link-rm { order: 4; margin-left: auto; }
+  .track-row .track-time { width: 100%; }
+  .track-row { flex-wrap: wrap; }
+  .propose-row .input { flex-basis: 100%; }
+}
+
+/* ============================================================
+   add-singer:请求弹窗 / 歌手页简介 / 审核页歌手管理(新增)
+   ============================================================ */
+
+/* 歌手页简介段落 */
+.singer-intro {
+  margin: 0 0 var(--sp-3); color: var(--muted); font-size: var(--fs-base);
+  line-height: 1.7; max-width: 720px;
+}
+
+/* 未知歌手空态:map-empty 默认 pointer-events:none,链接需可点 */
+#map .map-empty a { pointer-events: auto; color: var(--link); }
+
+/* 请求弹窗意向 radio */
+.radio-row { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-1) 0; }
+.radio-item {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--fs-base); color: var(--text); cursor: pointer;
+}
+.radio-item input { flex: none; width: 16px; height: 16px; }
+
+/* 审核页歌手管理 */
+.singer-manage-row {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: var(--sp-3) 0; border-bottom: 1px dashed var(--border);
+}
+.singer-manage-row:last-child { border-bottom: none; }
+.singer-manage__img {
+  width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: none;
+  border: 2px solid var(--border); background: var(--panel);
+}
+.singer-manage__img--fb {
+  display: grid; place-items: center;
+  background: var(--panel-2);
+  color: var(--accent-2); font-size: var(--fs-lg); font-weight: 700;
+}
+.singer-manage__info { flex: 1; min-width: 160px; }
+.singer-manage__name { font-size: var(--fs-base); font-weight: 600; color: var(--accent-2); }
+.singer-manage__meta { font-size: var(--fs-xs); color: var(--muted); }
+.singer-manage__actions { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; margin-left: auto; }
+.singer-manage__actions .role-switch { margin-left: 0; }
+.singer-manage__actions .ghost-icon-btn { border: 0; background: transparent; width: 28px; height: 28px; }
+.singer-manage__actions .ghost-icon-btn:hover { background: var(--panel-2); color: var(--text); }
+.singer-manage__actions .ghost-icon-btn--danger { color: var(--danger); }
+.singer-manage__actions .ghost-icon-btn--danger:hover { background: var(--danger-focus); color: var(--danger-strong); }
+.singer-edit-box {
+  flex-basis: 100%; margin-top: var(--sp-1); padding: var(--sp-2) 12px;
+  background: var(--panel-2); border-radius: var(--r-md);
+}
+.singer-edit-box .input { padding: 5px 10px; font-size: var(--fs-sm); border-radius: var(--r-sm); }
+.singer-edit-box .field { font-size: var(--fs-xs); gap: 4px; }
+.singer-edit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp-2); }
+
+/* 大头照上传(申请弹窗 / 后台歌手编辑共用):选图按钮 + 预览 + 状态行 */
+.portrait-upload-row { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; min-height: 34px; }
+.portrait-upload-row .form-note { margin: 0; flex: 1 1 160px; }
+.portrait-preview { width: 52px; height: 52px; border-radius: var(--r-md); object-fit: cover; border: 1px solid var(--border); }
+.linkish { background: none; border: 0; color: var(--link); cursor: pointer; font: inherit; padding: 2px var(--sp-1); text-decoration: underline; }
+
+/* 请求新增歌手弹窗:大头照单行紧凑布局 (URL输入框 + 预览缩略图 + 上传按钮 + 移除按钮在同一行) */
+.sr-portrait-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+}
+.sr-portrait-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.sr-portrait-preview {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: var(--r-md);
+  object-fit: cover;
+  border: 1px solid var(--border);
+  flex: none;
+}
+.sr-portrait-preview[hidden] {
+  display: none !important;
+}
+
+/* 歌曲信息区(我的提交 / 弹窗空歌提示 / 提交反馈横幅) */
+.list-card__songs { margin-top: 6px; display: flex; flex-wrap: wrap; gap: var(--sp-1); align-items: center; font-size: var(--fs-base); color: var(--text); }
+.list-card__songs.none { color: var(--muted); font-style: italic; }
+.song-tag { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 1px 10px; font-size: var(--fs-xs); color: var(--text); }
+.song-tag--pending { color: var(--accent-2); border-color: currentColor; background: transparent; }
+.list-card__songs-flash { background: var(--flash-bg); border: 1px solid var(--flash-border); border-radius: var(--r-md); padding: 10px 14px; font-size: var(--fs-base); margin: 0 0 var(--sp-3); color: var(--text); }
+.perf-songs-empty { margin: var(--sp-2) 0 0; font-size: var(--fs-xs); color: var(--muted); font-style: italic; }
+
+@media (max-width: 640px) {
+  .singer-manage-row { align-items: flex-start; }
+  .singer-manage__info { min-width: 120px; }
+}
+
+/* ============================================================
+   统计看板(review 页「统计」tab):数据总览行 / 分区卡片 / CSS 条形
+   ============================================================ */
+
+#stats-panel { margin-top: var(--sp-1); }
+#stats-panel[hidden] { display: none; }
+
+/* 顶部数据总览行(ledger)—— 不是卡片,不用盒子,也**不画线**(2026-09-11)。
+   原设计用上下两条通栏细线把它框成"表头";但这一行与其下方的分区卡片是同一份数据的两种粒度
+   (总览 → 明细),不是两件事,框起来等于把全站最长的一对横线摆在最显眼处。
+   改由字级差分层:标签 fs-xs + muted,数字 fs-lg + 墨色 + tabular-nums;与下方靠间距断开。
+   窄屏由 flex-wrap 换行,本就没有竖分隔线可断。数字 20px(<24px)按正文 4.5:1 判据,
+   两主题 --text 均达标。 */
+.stats-ledger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: var(--sp-6);
+}
+.stats-ledger__item {
+  flex: 1 1 0;
+  min-width: 88px;
+  padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+}
+.stats-ledger__label {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.35;
+}
+.stats-ledger__value {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-data);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+/* 档案头里的账本修饰(2026-09-13):与 .stats-ledger 同特异度,故必须排在基样式之后。
+   站内其它两处账本(首页总览 / 统计页)仍是一行铺开的 flex,不受影响。
+   这里改为 2×2 紧凑网格、贴齐身份区顶部;不再单开 section —— 各格自带标签,
+   组名由 role=group 的 aria-label 承载,省掉一个与用户名叫板的标题。 */
+.stats-ledger--hero {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(72px, auto));
+  gap: var(--sp-3) var(--sp-6);
+  align-content: start;
+  margin-bottom: 0;
+}
+.stats-ledger--hero .stats-ledger__item { flex: none; min-width: 0; padding: 0; }
+
+/* 分区网格(自动换行卡片) */
+.stats-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--sp-4);
+  align-items: start;
+}
+.stats-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px var(--sp-4);
+}
+.stats-section__title {
+  margin: 0 0 10px;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
+/* 表格 */
+.stats-table-wrap { overflow-x: auto; }
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+}
+.stats-table th,
+.stats-table td {
+  text-align: right;
+  padding: 6px var(--sp-2);
+  border-bottom: 1px dashed var(--border);
+  font-variant-numeric: tabular-nums;
+}
+.stats-table th:first-child,
+.stats-table td:first-child { text-align: left; }
+.stats-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+.stats-table tr:last-child td { border-bottom: none; }
+.stats-table tbody tr:hover td { background: var(--panel-2); }
+
+/* CSS 条形(名称 + 按最大值比例的轨道 + 数量) */
+.stats-bars { display: flex; flex-direction: column; gap: var(--sp-2); }
+.stats-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-base);
+}
+.stats-bar__name {
+  flex: 0 0 96px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+}
+.stats-bar__track {
+  flex: 1;
+  min-width: 40px;
+  height: 14px;
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+  overflow: hidden;
+}
+.stats-bar__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-md);
+  background: var(--accent-2);
+}
+.stats-bar__count {
+  flex: 0 0 auto;
+  min-width: 36px;
+  text-align: right;
+  color: var(--muted);
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   可点元素焦点可见 + 批量审核(待审核全选 / 底部浮动操作条)
+   ============================================================ */
+
+.btn:focus-visible,
+.review-tab:focus-visible,
+.chip:focus-visible,
+.tag-chip:focus-visible,
+.review-item__checkbox:focus-visible,
+#review-selall-cb:focus-visible,
+/* 2026-09-10 补全:这些控件此前依赖 UA 默认 outline,焦点环弱且不一致 */
+.rt-btn:focus-visible,
+.mine-tab:focus-visible,
+.act-mini:focus-visible,
+.filter-mega__toggle:focus-visible,
+.searchbox__toggle:focus-visible,
+.role-switch__seg:focus-visible,
+.mini-link:focus-visible,
+.masthead__name-link:focus-visible,
+.directory__row-name:focus-visible,
+.directory__row-submit:focus-visible,
+.directory__request:focus-visible,
+/* S4d:弹窗内可点元素(收藏星标 / 视频链接 / 封面 / 逐曲链接)补可见焦点环 */
+.perf-fav:focus-visible,
+.perf-links .link:focus-visible,
+.perf-cover:focus-visible,
+.perf-track:focus-visible,
+/* S4d 收尾补漏:弹窗关闭钮与底部动作链接此前只有 UA 默认 outline(深底上 ≈1:1,等于不可见)。
+   .modal-close 是 40px 圆形钮,outline 会沿 border-radius 走 → 2px 外扩环仍贴合圆形。 */
+.modal-close:focus-visible,
+.perf-edit a:focus-visible,
+/* 09-12 个人中心:头像钮与默认头像选择钮 */
+.profile-hero__avatar:focus-visible,
+.avatar-choice:focus-visible,
+/* 2026-09-15:清除钮此前一直漏在焦点环名单外(只 .searchbox__toggle 在),靠 UA 默认 outline。
+   个人中心原用 .fav-search__clear 自带环,改用共享的 .searchbox__clear 后会退化成 UA 默认
+   → 补进名单,两页一起修好。 */
+.searchbox__clear:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+/* .role-switch 父级 overflow:hidden,外扩 2px 的环会被裁掉 → 该分段控件改内缩环。
+   内缩环画在按钮自身底色上:选中段底色为 --accent,再用 --accent 环会同色不可见,
+   故选中段改用 --on-accent(墨色,在强调底上 ≈6–7.7:1)。 */
+.role-switch__seg:focus-visible { outline-offset: -2px; }
+.role-switch__seg.active:focus-visible { outline-color: var(--on-accent); }
+
+/* 全选行(顶进 toolbar 最左;hidden 时无 margin 吸收,刷新按钮回到最右) */
+.batch-select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--fs-base);
+  cursor: pointer;
+  user-select: none;
+  margin-right: auto;
+  padding: var(--sp-1) var(--sp-2);
+}
+.batch-select-all[hidden] { display: none; }
+.batch-select-all input[type="checkbox"] {
+  width: 16px; height: 16px;
+  cursor: pointer;
+  accent-color: var(--accent-2);
+}
+
+/* 待审核卡片里的选择框 */
+.review-item__checkbox {
+  width: 18px; height: 18px;
+  flex: none;
+  cursor: pointer;
+  accent-color: var(--accent-2);
+  margin: 0;
+}
+
+/* 底部浮动批量条:深棕条,滚动时贴住视口底部(仅选中后出现) */
+.review-batch-bar {
+  position: sticky;
+  bottom: 12px;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: var(--sp-4);
+  padding: 10px var(--sp-4);
+  background: var(--ink-bg);
+  color: var(--white);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-2) var(--shadow-bar);
+}
+.review-batch-bar[hidden] { display: none; }
+.review-batch-bar__count {
+  margin-right: auto;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--white);
+}
+.review-batch-bar .btn { box-shadow: none; }
+.review-batch-bar .btn:hover { box-shadow: none; }
+/* 条内的通过按钮保持橙色渐变;驳回/清除用半透明白(在深底上可读) */
+.review-batch-bar .review-batch-bar__ghost {
+  background: var(--ghost-bg);
+  color: var(--white);
+  border-color: var(--ghost-border);
+}
+.review-batch-bar .review-batch-bar__ghost:hover {
+  background: var(--ghost-bg-hover);
+  filter: none;
+}
+.review-batch-bar .review-batch-bar__ghost:active {
+  transform: translateY(1px);
+  background: var(--ghost-bg-active);
+}
+
+@media (max-width: 640px) {
+  .review-batch-bar { padding: var(--sp-2) var(--sp-3); }
+  .review-batch-bar__count { width: 100%; }
+  .batch-select-all { font-size: var(--fs-xs); }
+}
+
+/* ============================================================
+   用户角色(user | admin 分段控件,照 geoguide)+ 审计记录行
+   ============================================================ */
+#audit-box[hidden] { display: none; }
+
+/* ---------- review「访问分析」(页面埋点统计) ---------- */
+#analytics-panel[hidden] { display: none; }
+.analytics-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 14px; }
+.analytics-head__label { font-size: var(--fs-sm); color: var(--muted); }
+.analytics-head__select { width: auto; font-size: var(--fs-sm); padding: 5px 10px; border-radius: var(--r-sm); }
+
+/* ---------- 访问分析 · 图表(2026-09-15) ----------
+   版式:12 列网格 + 跨列修饰类,刻意**宽度错落** —— 不是 .stats-sections 那种
+   repeat(auto-fill, minmax(340px,1fr)) 的等高卡片阵列(DESIGN.md 明令禁止
+   「同尺寸卡片阵列当页面结构」)。外壳复用既有 .stats-section,只接管栅格占位。
+   全部颜色/字号/圆角消费令牌:JS(charts.js)只写几何,不写任何色值。 */
+.analytics-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--sp-4); }
+.analytics-grid > .stats-section { grid-column: span 12; }
+.analytics-grid > .stats-section--wide { grid-column: span 7; }
+.analytics-grid > .stats-section--narrow { grid-column: span 5; }
+
+/* 图表容器:高度交给 viewBox 的宽高比(width:100% + height:auto),
+   这样窗口变化到下次重绘之间也能平滑缩放,而不是留一块空白。
+   .chart--donut 另加宽度上限:环形是方的,不限宽会在宽栏里长成一个巨大的圆饼。 */
+.chart { width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart--donut svg { max-width: 260px; margin: 0 auto; }
+
+/* 柱状图 */
+.chart-grid { stroke: var(--border); stroke-width: 1; }
+.chart-grid--base { stroke: var(--border-soft); }
+.chart-tick {
+  fill: var(--muted);
+  font-family: var(--font-data);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+.chart-col { fill: var(--accent); }
+/* 悬停靠 filter 提亮(与地图聚合徽章同一手法):不引入新色令牌,两个主题都成立 */
+.chart-col:hover { filter: brightness(1.15); }
+
+/* 环形图。色阶往 --text 混,不往 --panel 混 —— 见 design.md §4.3:
+   混向面板色时最浅档实测只有 ~1.9:1(暗)/ ~2.8:1(亮),过不了 3:1;
+   混向 --text 时每一档都朝"远离底面"的方向走,四档全部达标。
+   基类给 fill: var(--accent) 兜底:不支持 color-mix 的浏览器退化成单色环,
+   靠 2px --panel 间隙 + 图例 + <title> 仍可读(颜色本来就不是唯一载体)。 */
+.chart-donut__slice { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+/* 单段占满 360° 时画的是整环(circle + stroke),不是扇形。只设 stroke、不设 fill ——
+   CSS 的 fill 会盖掉 fill="none" 属性,一并写进来会把整环填成实心圆饼。 */
+.chart-donut__ring { stroke: var(--accent); }
+.chart-donut__center {
+  fill: var(--text);
+  font-family: var(--font-data);
+  font-size: var(--fs-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 环形图的图例:色块 + 页面路径 + 计数。它就是扇区的"直接标注" ——
+   压在扇区上的文字对比度会随色阶漂移,做不到四档都 ≥4.5:1,故标注放在环外。 */
+.chart-legend { list-style: none; margin: var(--sp-3) 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: var(--sp-2); }
+.chart-legend__item { display: flex; align-items: baseline; gap: var(--sp-2); }
+.chart-legend__swatch {
+  flex: none; width: 10px; height: 10px; border-radius: var(--r-sm);
+  background-color: var(--accent); align-self: center;
+}
+.chart-legend__label {
+  flex: 1 1 auto; min-width: 0;
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  line-height: 1.4; padding-bottom: 2px; margin-bottom: -2px;
+}
+.chart-legend__value {
+  flex: none; font-family: var(--font-data); font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums; color: var(--muted);
+}
+
+/* 四档顺序色阶:**一处定义、两处消费** —— fill 给 SVG 扇区,background-color 给 HTML 图例色块。
+   这里不抽 --ramp-N 自定义属性:自定义属性一旦取值非法会在"计算值阶段"才失效,
+   那时 fill 会退回继承值(黑);写成两条具体声明则是**解析期**丢弃 →
+   各自落回 .chart-donut__slice / .chart-legend__swatch 的单色基类,两边不会错配。
+
+   ⚠ 必须排在上面两个基类**之后**:三者特异度相同(都是单类),源序决定胜负 ——
+   放前面会被基类的 fill/background-color 直接盖掉(实测踩到:四个色块全渲染成同一个 --accent)。
+   改色阶时这里与基类一起看;扇区上限 4 就是因为再浅的档过不了 3:1。 */
+.chart-ramp-1 { fill: var(--accent); background-color: var(--accent); }
+.chart-ramp-2 {
+  fill: color-mix(in srgb, var(--accent) 78%, var(--text));
+  background-color: color-mix(in srgb, var(--accent) 78%, var(--text));
+}
+.chart-ramp-3 {
+  fill: color-mix(in srgb, var(--accent) 56%, var(--text));
+  background-color: color-mix(in srgb, var(--accent) 56%, var(--text));
+}
+.chart-ramp-4 {
+  fill: color-mix(in srgb, var(--accent) 34%, var(--text));
+  background-color: color-mix(in srgb, var(--accent) 34%, var(--text));
+}
+
+/* 横条(排名 / 堆叠):内容本身是文本,故用 role=group 而非 role=img —— 见 charts.js */
+.chart-bars { display: flex; flex-direction: column; gap: var(--sp-2); }
+.chart-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.6fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.chart-bar__name { display: flex; flex-direction: column; min-width: 0; }
+.chart-bar__label {
+  font-size: var(--fs-base);
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+}
+.chart-bar__meta { font-size: var(--fs-xs); color: var(--muted); }
+.chart-bar__track {
+  display: flex;
+  height: 14px;
+  border-radius: var(--r-md);
+  background: var(--panel-2);
+  overflow: hidden;
+}
+.chart-bar__fill { display: block; height: 100%; border-radius: var(--r-md); background: var(--accent); }
+.chart-bar__seg { display: block; height: 100%; }
+.chart-bar__seg + .chart-bar__seg { border-left: 2px solid var(--panel); }
+.chart-bar__seg--a { background: var(--accent); }
+.chart-bar__seg--b { background: var(--accent-2); }
+.chart-bar__seg--approved { background: var(--status-approved-fg); }
+.chart-bar__seg--pending { background: var(--status-pending-fg); }
+.chart-bar__value {
+  font-family: var(--font-data);
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+/* 折叠的数据表:图表的等价文本替代(精确数值、色觉障碍读者)。
+   summary 做成可点的一行,保持与区块标题同级的小字。 */
+.chart-data { margin-top: var(--sp-3); }
+.chart-data > summary {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  cursor: pointer;
+  width: fit-content;
+}
+.chart-data > summary:hover { color: var(--text); }
+
+@media (max-width: 640px) {
+  /* 并排的两块在窄屏落回整宽;横条的数值挪到标题行右端,轨道独占一行 */
+  .analytics-grid > .stats-section--wide,
+  .analytics-grid > .stats-section--narrow { grid-column: span 12; }
+  .chart-bar { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--sp-1); }
+  .chart-bar__track { grid-column: 1 / -1; grid-row: 2; }
+  .chart-bar__value { grid-column: 2; grid-row: 1; text-align: right; }
+}
+.role-owner { flex: none; font-size: var(--fs-xs); font-weight: 700; color: var(--role-admin-fg);
+  background: var(--role-admin-bg); border: 1px solid var(--role-admin-border); border-radius: var(--r-md); padding: 1px 9px; }
+.role-banned-badge { flex: none; font-size: var(--fs-xs); font-weight: 700; color: var(--danger);
+  background: var(--danger-focus); border: 1px solid var(--danger-border); border-radius: var(--r-md); padding: 1px 8px; }
+.role-switch { display: inline-flex; align-items: center; flex: none;
+  margin-left: auto; border: 1px solid var(--border); border-radius: var(--r-md);
+  overflow: hidden; background: var(--panel); }
+.role-switch__seg {
+  border: 0; background: transparent; color: var(--muted);
+  font-family: inherit; font-size: var(--fs-xs); line-height: 1.6; padding: 3px 13px;
+  cursor: pointer; transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+.role-switch__seg + .role-switch__seg { border-left: 1px solid var(--border); }
+.role-switch:not(.role-switch--static) .role-switch__seg:not(.active):not(:disabled):hover {
+  background: var(--panel-2); color: var(--text);
+}
+.role-switch__seg:active:not(:disabled) { transform: translateY(1px); }
+.role-switch__seg.active[data-role="admin"] {
+  background: var(--accent); color: var(--on-accent); font-weight: 700;
+}
+.role-switch__seg.active[data-role="user"] {
+  background: var(--panel-2); color: var(--text); font-weight: 700;
+}
+.role-switch__seg.active[data-status="active"] {
+  background: var(--ok); color: var(--on-accent); font-weight: 700;
+}
+.role-switch__seg.active[data-status="inactive"] {
+  background: var(--panel-2); color: var(--muted); font-weight: 700;
+}
+.role-switch--static .role-switch__seg,
+.role-switch__seg:disabled { cursor: default; }
+.role-chip { display: inline-block; font-size: var(--fs-xs); font-weight: 700; line-height: 1.5;
+  padding: 0 var(--sp-2); border-radius: var(--r-md); vertical-align: 1px; }
+.role-chip--admin { background: var(--role-admin-bg); color: var(--role-admin-fg); border: 1px solid var(--role-admin-border); }
+.role-chip--user { background: var(--panel-2); color: var(--muted); border: 1px solid var(--border); }
+.role-chip--banned { background: var(--danger-focus); color: var(--danger); border: 1px solid var(--danger-border); }
+
+.audit-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px var(--sp-3);
+  margin: 6px 0;
+}
+.audit-row__badge { flex: none; font-size: var(--fs-xs); }
+.audit-row__text { flex: 1; min-width: 200px; font-size: var(--fs-sm); }
+.audit-row__time {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- 我的提交:进行中 / 回收站 视图钮 ---------- */
+.mine-views { display: flex; gap: var(--sp-2); margin: var(--sp-1) 0 14px; }
+.mine-tab {
+  border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+  border-radius: var(--r-md); padding: 6px var(--sp-4); font-size: var(--fs-base); cursor: pointer; font-family: inherit;
+  transition: filter var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.mine-tab:hover:not(.active) { background: var(--panel-2); color: var(--text); border-color: var(--border-hover); }
+.mine-tab:active { transform: translateY(1px); }
+.mine-tab.active { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.mine-tab.active:hover { filter: brightness(0.94); }
+
+/* 回收站卡片:删除时间行 */
+.list-card__del { margin-top: 6px; color: var(--muted); font-size: var(--fs-xs); }
+#mine-list .list-card__del { font-size: var(--fs-xs); }
+
+/* ---------- 我的提交:状态分段与筛选工具栏 (仿照 GeoGuide) ---------- */
+.mine-status-row {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin-bottom: 12px;
+  height: 32px;
+}
+.mine-status-row[hidden] { display: none; }
+.mine-status-tab {
+  height: 100%;
+  padding: 0 12px;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--dur-1) var(--ease-out);
+  font-family: inherit;
+}
+.mine-status-tab:last-child { border-right: none; }
+.mine-status-tab:hover:not(.active) { background: var(--panel-2); color: var(--text); }
+.mine-status-tab.active { background: var(--panel-2); color: var(--text); font-weight: 700; }
+.mine-status-tab__badge {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding: 0 4px;
+  border-radius: var(--r-sm);
+  background: rgba(128, 128, 128, 0.12);
+  line-height: 1.3;
+}
+.mine-status-tab.active .mine-status-tab__badge {
+  color: var(--accent);
+  background: rgba(211, 84, 0, 0.12);
+}
+
+.my-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.sort-toggle {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.sort-toggle:hover {
+  background: var(--panel-2);
+  border-color: var(--border-link);
+}
+.sort-toggle__arrow {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* 歌手下拉筛选 */
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.filter-dropdown__btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.filter-dropdown__btn:hover {
+  background: var(--panel-2);
+  border-color: var(--border-link);
+}
+.filter-dropdown__arrow {
+  font-size: 11px;
+  color: var(--muted);
+}
+.filter-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 170px;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  padding: 4px 0;
+}
+.filter-dropdown__menu[hidden] { display: none; }
+.filter-dropdown__item {
+  padding: 7px 12px;
+  font-size: var(--fs-sm);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--dur-1) var(--ease-out);
+}
+.filter-dropdown__item:hover {
+  background: var(--panel-2);
+  color: var(--accent);
+}
+.filter-dropdown__item.is-selected {
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(211, 84, 0, 0.08);
+}
+.filter-dropdown__count {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-left: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 简易搜索放大镜 search-chip (我的提交与歌曲管理共享) */
+.my-filter-row .searchbox,
+.song-filter-row .searchbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: transparent;
+  border: none;
+}
+.my-filter-row .searchbox__icon,
+.song-filter-row .searchbox__icon {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  pointer-events: none;
+  background: transparent;
+  border: none;
+}
+.my-filter-row .searchbox__icon svg,
+.song-filter-row .searchbox__icon svg {
+  width: 18px;
+  height: 18px;
+}
+.my-filter-row .searchbox__input,
+.song-filter-row .searchbox__input {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-sm);
+  width: 180px;
+  padding: 6px 2px;
+  caret-color: var(--accent);
+}
+.my-filter-row .searchbox__input:focus,
+.song-filter-row .searchbox__input:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+.my-filter-row .searchbox__clear,
+.song-filter-row .searchbox__clear {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--dur-1) var(--ease-out);
+}
+.my-filter-row .searchbox__clear:hover,
+.song-filter-row .searchbox__clear:hover {
+  color: var(--accent-2);
+  background: var(--accent-wash);
+}
+.my-filter-row .searchbox__clear svg,
+.song-filter-row .searchbox__clear svg {
+  width: 14px;
+  height: 14px;
+}
+.my-filter-row .searchbox__clear[hidden],
+.song-filter-row .searchbox__clear[hidden] {
+  display: none !important;
+}
+
+.mine-count {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.mine-card__singer {
+  font-weight: 600;
+  color: var(--text);
+}
+.mine-empty-filtered {
+  text-align: center;
+  padding: 36px 16px;
+  color: var(--muted);
+  font-size: var(--fs-base);
+}
+.mine-empty-filtered p { margin: 0 0 12px; }
+
+@media (max-width: 640px) {
+  .my-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .my-filter-row .sort-toggle {
+    flex: 0 0 auto;
+    font-size: var(--fs-xs);
+    padding: 0 10px;
+    height: 30px;
+  }
+  .my-filter-row .filter-dropdown {
+    flex: 0 0 auto;
+  }
+  .my-filter-row .filter-dropdown__btn {
+    font-size: var(--fs-xs);
+    padding: 0 10px;
+    height: 30px;
+  }
+  .my-filter-row .mine-count {
+    margin-left: auto;
+    font-size: var(--fs-xs);
+  }
+  .my-filter-row .searchbox {
+    width: 100%;
+    order: 4;
+    margin-top: 2px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 2px 6px;
+    box-sizing: border-box;
+  }
+  .my-filter-row .searchbox__input {
+    width: 100%;
+    font-size: 16px;
+  }
+  .mine-status-tab { padding: 0 8px; font-size: var(--fs-xs); }
+}
+
+/* ---------- 演出 reaction 条 + 贡献署名(09-08,modal.js 公开演出卡) ---------- */
+/* reaction 条:是对**上方这条视频**的评价,不是独立区块 —— 不画分隔线(2026-09-11),
+   原有那条 border-top 把它和视频切开,读起来像另起一块。改用间距 + 体量弱化。 */
+.perf-reactions { margin-top: var(--sp-4); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rt-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+  border-radius: var(--r-pill); padding: 4px 10px 4px 8px; cursor: pointer; font-family: inherit;
+  line-height: 1; user-select: none; -webkit-user-select: none;
+  transition: background var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.rt-btn:hover {
+  background: var(--panel-2); color: var(--text); border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.rt-btn:hover .rt-ico {
+  transform: scale(1.15);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rt-btn:active {
+  transform: scale(0.96);
+}
+.rt-ico {
+  width: 17px; height: 17px; display: block;
+  transition: transform var(--dur-1) var(--ease-out);
+}
+.rt-n {
+  font-size: var(--fs-xs); font-weight: 600; font-variant-numeric: tabular-nums;
+  transition: color var(--dur-1) var(--ease-out);
+}
+/* 选中态:参考 geoguide 质感(温暖强调底色 + 清晰描边 + 亮色数字 + 微阴影) */
+.rt-btn.on {
+  background: var(--accent-wash-strong);
+  border-color: var(--accent);
+  color: var(--accent-2);
+  box-shadow: 0 0 0 1px var(--accent-wash-strong), 0 2px 6px rgba(211, 84, 0, 0.14);
+}
+.rt-btn.on .rt-n {
+  font-weight: 700;
+  color: var(--accent-2);
+}
+/* 瞬时轻量弹跳微动效 */
+@keyframes rt-bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.85); }
+  60% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+.rt-btn.rt-pop .rt-ico {
+  animation: rt-bounce 0.36s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+/* 点按瞬时反馈:登录引导/会话失效点按 → 底色短暂高亮后自动复原(不产生真实记录) */
+.rt-btn.rt-flash { background: var(--accent-wash-strong); border-color: var(--rt-on-border); color: var(--accent-2); }
+/* 触摸/粗指针:点过不留 :hover 底色(无鼠标移开动作,否则会粘住);已选(.on)保持选中色 */
+@media (hover: none) {
+  .rt-btn:hover:not(.on) { background: var(--panel); color: var(--muted); border-color: var(--border); transform: none; }
+  .rt-btn:hover:not(.on) .rt-ico { transform: none; }
+}
+.rt-btn:disabled { opacity: 0.6; cursor: default; }
+.perf-react-note { font-size: var(--fs-xs); color: var(--muted); }
+.perf-react-note a { color: var(--link); }
+.perf-react-note.err { color: var(--danger); }
+.perf-credit { font-size: var(--fs-xs); color: var(--muted); text-align: right; margin-left: auto; }
+
+@media (max-width: 640px) {
+  /* 手机端:微调 Reaction 按钮尺寸与间距,确保 6 枚按钮整齐容纳在单行内不折行 */
+  .perf-reactions { gap: 4px; }
+  .rt-btn { padding: 3px 6px; gap: 3.5px; }
+  .rt-ico { width: 14px; height: 14px; }
+  .rt-n { font-size: 11px; }
+  .perf-react-note { width: 100%; margin-top: 2px; }
+}
+
+/* ============================================================
+   无障碍:减少动效(2026-09-10 扩展)
+   ------------------------------------------------------------
+   必须放在文件**最末**:媒体查询不提升优先级,若写在各组件 transition
+   声明之前,后面同优先级的规则会覆盖它(实测 .btn/.review-tab/
+   .mine-tab/.tag-chip 的 transform 过渡因此漏改)。
+   目标:位移/缩放类过渡与入场关键帧一律降级,但**保留承载语义的颜色/透明度**
+   变化(「更少更柔」,不是全关)。
+   ⚠️ 只改写 transition-property(剔除 transform)与 animation,绝不写
+   `transform: none` —— map.js 用 transform 做投影定位与拖拽平移(style.transform),
+   那不是动画,误伤会让地图错位。*/
+@media (prefers-reduced-motion: reduce) {
+  /* 入场关键帧(modal-in 的 translateY+opacity):直接不播放 */
+  .modal-card { animation: none; }
+
+  /* 深链定位高亮:去掉淡出关键帧(不播放动画),但**保留可见描边** ——
+     类由 JS 计时器(1400ms)摘除,即「无动画、反馈仍在」。 */
+  .perf.is-target { animation: none; }
+
+  /* 去掉 transform(及 width/height 等布局属性)的过渡,保留颜色/描边/阴影/透明度。
+     未定义过渡或属性不匹配的选择器为空操作,集中列出以免遗漏。*/
+  .chip, .perf-links .link, .btn, .review-tab,
+  .tag-chip, .mine-tab, .role-switch__seg, .theme-toggle, .rt-btn, .perf-fav,
+  .modal-close, .map-picker__item, .filter-mega__toggle, .searchbox__toggle,
+  .act-mini, .mini-link, .yearbar__year, .yearbar__reset {
+    transition-property: color, background-color, border-color, box-shadow, filter, opacity;
+  }
+}

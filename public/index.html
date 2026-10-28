@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>现场档案馆</title>
+<meta name="description" content="陶喆(David Tao)演出全纪录:演唱会 / 音乐节 / 现场视频、照片、剪辑的聚合档案。社区提交,管理员审核。">
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<header class="site-head">
+  <div class="wrap">
+    <h1 class="brand-zh">现场档案馆</h1>
+    <p class="brand-en">LIVE CONCERTS MAP</p>
+    <div class="hero-stats" id="hero-stats" hidden>
+      <div class="hero-stats__count">
+        <span class="hero-stats__num" id="hero-live-count">0</span>
+        <span class="hero-stats__label">场现场演出</span>
+      </div>
+      <span class="hero-stats__dot" aria-hidden="true">&middot;</span>
+      <div class="hero-stats__avatars" id="hero-top-singers" role="button" tabindex="0" title="点击查看歌手"></div>
+      <span class="hero-stats__dot" aria-hidden="true">&middot;</span>
+      <div class="hero-stats__avatars" id="hero-top-contributors" tabindex="0" title="核心贡献者"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="home-loading" class="loading-box">加载中…</div>
+  <div id="home-content" class="home-content">
+    <section id="home-masthead" class="masthead" aria-label="主推歌手"></section>
+    <section id="home-directory" class="directory" aria-label="其他歌手"></section>
+    <section id="home-constellation" class="constellation-section" aria-label="贡献者星图" hidden style="display: none;">
+      <div class="constellation-head">
+        <h2 class="constellation-title">贡献者星图</h2>
+        <p class="constellation-subtitle">感谢为现场档案馆添砖加瓦的每一位乐迷</p>
+      </div>
+      <div class="constellation-wrap" id="constellation-wrap">
+        <canvas id="constellation-canvas"></canvas>
+      </div>
+      <div class="constellation-mirror" id="constellation-mirror" hidden></div>
+    </section>
+  </div>
+</main>
+
+<!-- chrome:foot -->
+<footer class="site-foot" id="site-foot">
+  <div class="wrap">
+    <p class="footer__byline">Made by LuanJiangXing · © 2026 现场档案馆</p>
+    <p class="footer__attribution">World map: <a href="https://www.npmjs.com/package/@svg-maps/world" target="_blank" rel="noopener noreferrer">@svg-maps/world</a> (CC BY 4.0) · China boundary: <a href="https://datav.aliyun.com/portal/school/atlas/area_selector" target="_blank" rel="noopener noreferrer">DataV.GeoAtlas</a></p>
+  </div>
+</footer>
+<!-- /chrome:foot -->
+
+<script defer src="/js/auth.js"></script>
+<script defer src="/js/avatars.js"></script>
+<script defer src="/js/icons.js"></script>
+<script defer src="/js/dialog.js"></script>
+<script defer src="/js/singer-request.js"></script>
+<script defer src="/js/yearbar.js"></script>
+<script defer src="/js/constellation.js?v=20261028"></script>
+<script defer src="/js/home.js?v=20261028"></script>
+<script defer src="/js/analytics.js"></script>
+<script defer src="/js/theme.js"></script>
+</body>
+</html>

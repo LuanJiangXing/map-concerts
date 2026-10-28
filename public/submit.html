@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提交演出 · 现场档案馆</title>
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<main class="wrap page">
+  <h2 class="page-title" id="submit-title">提交演出</h2>
+  <p class="page-hint" id="submit-hint">填写演出信息，提交后进入审核。</p>
+  <div id="auth-gate"></div>
+
+  <form id="submit-form" hidden>
+    <!-- 提交步骤指引 (方案 A) -->
+    <nav class="submit-steps" id="submit-steps" aria-label="提交步骤">
+      <button type="button" class="submit-step active" data-step="1">
+        <span class="submit-step__num">1</span>
+        <span>视频来源</span>
+      </button>
+      <div class="submit-step__divider" aria-hidden="true"></div>
+      <button type="button" class="submit-step" data-step="2">
+        <span class="submit-step__num">2</span>
+        <span>演出档案</span>
+      </button>
+      <div class="submit-step__divider" aria-hidden="true"></div>
+      <button type="button" class="submit-step" data-step="3">
+        <span class="submit-step__num">3</span>
+        <span>曲目与标签</span>
+      </button>
+    </nav>
+
+    <!-- 步骤 1：视频来源 -->
+    <section class="step-card" id="step-card-1" data-step="1">
+      <header class="step-card__head">
+        <div class="step-card__title-row">
+          <span class="step-card__num">01</span>
+          <h3 class="step-card__title">视频来源</h3>
+          <span class="step-card__badge step-card__badge--accent">推荐快捷录入</span>
+        </div>
+        <p class="step-card__desc">粘贴视频链接一键自动解析预填；也可跳过直接填写下方</p>
+      </header>
+      <div class="step-card__body">
+        <div id="link-rows"></div>
+        <div class="links-actions">
+          <button type="button" class="btn btn--ghost btn--sm" id="add-link">+ 添加链接</button>
+          <button type="button" class="btn btn--ghost btn--sm" id="links-parse">解析视频并预填</button>
+        </div>
+        <p id="links-msg" class="form-note" role="status" hidden></p>
+      </div>
+    </section>
+
+    <!-- 步骤 2：演出档案 -->
+    <section class="step-card" id="step-card-2" data-step="2">
+      <header class="step-card__head">
+        <div class="step-card__title-row">
+          <span class="step-card__num">02</span>
+          <h3 class="step-card__title">演出档案</h3>
+          <span class="step-card__badge step-card__badge--required">核心必填</span>
+        </div>
+        <p class="step-card__desc">演出基础档案与举办地点信息</p>
+      </header>
+      <div class="step-card__body">
+        <div class="submit-fields">
+          <div class="sf-row sf-row--head">
+            <label class="field"><span>歌手 *</span>
+              <select id="f-singer" class="input" required></select>
+            </label>
+            <label class="field"><span>标题 *</span><input id="f-title" class="input" maxlength="50" required></label>
+          </div>
+          <div class="sf-row sf-row--meta">
+            <label class="field"><span>年份 *</span><input id="f-year" class="input" type="number" min="1900" max="2100" required></label>
+            <label class="field"><span>日期</span><input id="f-date" class="input" maxlength="20" placeholder="2022-02-22"></label>
+            <label class="field"><span>形式 *</span>
+              <select id="f-type" class="input" required>
+                <option value=""></option>
+                <option>演唱会</option><option>音乐节</option><option>歌友会</option><option>签售</option><option>其他</option>
+              </select>
+            </label>
+            <label class="field"><span>场馆</span><input id="f-venue" class="input" maxlength="20"></label>
+            <label class="field"><span>城市 *</span>
+              <input id="f-city" class="input" list="city-datalist" maxlength="50" required>
+            </label>
+            <label class="field"><span>纬度</span><input id="f-lat" class="input" type="number" step="any" required></label>
+            <label class="field"><span>经度</span><input id="f-lng" class="input" type="number" step="any" required></label>
+          </div>
+          <label class="field field--wide"><span>备注</span><textarea id="f-note" class="input" rows="3" maxlength="500"></textarea></label>
+        </div>
+        <datalist id="city-datalist"></datalist>
+        <p id="geo-msg" class="form-err" hidden></p>
+      </div>
+    </section>
+
+    <!-- 步骤 3：曲目与标签 -->
+    <section class="step-card" id="step-card-3" data-step="3">
+      <header class="step-card__head">
+        <div class="step-card__title-row">
+          <span class="step-card__num">03</span>
+          <h3 class="step-card__title">曲目与标签</h3>
+          <span class="step-card__badge">可选补充</span>
+        </div>
+        <p class="step-card__desc">添加现场演出曲目与特色标签</p>
+      </header>
+      <div class="step-card__body">
+        <fieldset class="songs-editor" id="songs-editor">
+          <legend>歌曲</legend>
+          <div class="field field--wide">
+            <textarea id="f-songs" class="input" rows="2" aria-label="歌曲"
+                   placeholder="歌名（顿号或换行分隔）"></textarea>
+            <p id="songs-timeline-hint" class="field-hint" hidden style="margin-top:6px;font-size:0.85em;color:var(--accent,#d35400);">
+              检测到歌单包含时间轴，可在「视频链接」勾选「整场长视频」导入。
+            </p>
+          </div>
+          <div class="song-pick">
+            <div id="song-chips" class="tag-chips"></div>
+          </div>
+        </fieldset>
+
+        <datalist id="approved-songs"></datalist>
+
+        <fieldset class="tags-editor">
+          <legend>标签</legend>
+          <div id="tag-picker" class="tag-picker"></div>
+          <div class="propose-box">
+            <div class="propose-row">
+              <input id="propose-tags" class="input" placeholder="新标签名 (逗号或换行分隔)">
+              <select id="propose-category" class="input"></select>
+              <input id="propose-new-category" class="input" placeholder="新建类别名（可选）">
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button type="submit" class="btn" id="save-btn">提交审核</button>
+      <span id="form-err" class="form-err" hidden></span>
+    </div>
+  </form>
+</main>
+
+<!-- 预填确认弹窗(R11):并入全站 .modal 体系,由 /js/modal.js 提供 Esc / 背板点击关闭。
+     注意:此页无 .perf-fav / .rt-btn,modal.js 的 handleBodyClick 对本页弹窗是惰性的 → 不会误发收藏/reaction 请求。 -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="prefill-title">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card">
+    <header class="modal-head">
+      <div><h2 id="prefill-title">已自动预填,请检查</h2></div>
+      <button type="button" id="modal-close" class="modal-close" aria-label="关闭"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div id="modal-body" class="modal-body">
+      <ul id="prefill-summary"></ul>
+      <button type="button" id="prefill-ok" class="btn">确定</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/auth.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/dialog.js"></script>
+<script src="/js/track-time.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/portrait-upload.js"></script>
+<script src="/js/singer-request.js"></script>
+<script src="/js/submit.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+</html>

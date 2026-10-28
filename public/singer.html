@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>现场档案馆</title>
+<meta name="description" id="meta-description" content="歌手演出全纪录地图:演唱会 / 音乐节 / 现场视频、照片、剪辑的聚合档案。">
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+<!-- 提前下载世界底图(1MB),避免地图比页面其他内容慢一拍 -->
+<link rel="preload" as="fetch" href="/images/world.svg" crossorigin>
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<header class="site-head">
+  <div class="wrap">
+    <p class="singer-crumb"><a class="back-link" href="/">← 全部歌手</a> <span id="singer-name"></span></p>
+    <p id="singer-intro" class="singer-intro" hidden></p>
+    <h1 class="brand-zh">现场档案馆</h1>
+    <p class="brand-en">LIVE CONCERTS MAP</p>
+    <div class="toolbar toolbar--search">
+      <nav id="filters" class="filters" aria-label="按标签筛选"></nav>
+      <div class="searchbox" id="searchbox">
+        <button type="button" id="perf-search-toggle" class="searchbox__toggle" aria-label="搜索标题或城市"
+                aria-expanded="false" aria-controls="perf-search">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/>
+          </svg>
+        </button>
+        <input id="perf-search" class="searchbox__input" type="text" autocomplete="off" spellcheck="false"
+               aria-label="搜索标题或城市" hidden>
+        <button type="button" id="perf-search-clear" class="searchbox__clear" aria-label="清除搜索" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <!-- 年份跨度条(S4b):由 /js/yearbar.js 挂载,DOM 由 app.js 写入 -->
+      <div id="stats" class="yearbar-host"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="map-loading" class="loading-box">加载中…</div>
+  <div id="map" class="map" role="img" aria-label="歌手演出城市分布地图"></div>
+</main>
+
+<!-- chrome:foot -->
+<footer class="site-foot" id="site-foot">
+  <div class="wrap">
+    <p class="footer__byline">Made by LuanJiangXing · © 2026 现场档案馆</p>
+    <p class="footer__attribution">World map: <a href="https://www.npmjs.com/package/@svg-maps/world" target="_blank" rel="noopener noreferrer">@svg-maps/world</a> (CC BY 4.0) · China boundary: <a href="https://datav.aliyun.com/portal/school/atlas/area_selector" target="_blank" rel="noopener noreferrer">DataV.GeoAtlas</a> · Reaction icons: <a href="https://github.com/twitter/twemoji" target="_blank" rel="noopener noreferrer">Twemoji</a> (CC BY 4.0)</p>
+  </div>
+</footer>
+<!-- /chrome:foot -->
+
+<!-- 城市演出弹窗 -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-city">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card">
+    <header class="modal-head">
+      <div>
+        <h2 id="modal-city"></h2>
+        <p id="modal-meta" class="modal-meta"></p>
+        <!-- 排序切换(modal.js 渲染;仅该城市 ≥2 场时显示)。放头部而非正文:它是这条
+             列表的属性,且头部不在 #modal-body 滚动区内 —— 长列表滚动时控件不会跑掉。 -->
+        <div id="modal-sort" class="modal-sort" role="group" aria-label="排序方式" hidden></div>
+      </div>
+      <button id="modal-close" class="modal-close" aria-label="关闭"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
+
+<script defer src="/js/china-province-seams.js"></script>
+<script defer src="/js/icons.js?v=20261023e"></script>
+<script defer src="/js/dialog.js"></script>
+<script defer src="/js/track-time.js"></script>
+<script defer src="/js/map.js?v=20261023e"></script>
+<script defer src="/js/modal.js?v=20261024b"></script>
+<script defer src="/js/auth.js?v=20261024b"></script>
+<script defer src="/js/singer-tag-util.js"></script>
+<script defer src="/js/yearbar.js"></script>
+<script defer src="/js/app.js?v=20261024b"></script>
+<script defer src="/js/analytics.js"></script>
+<script defer src="/js/theme.js"></script>
+</body>
+</html>

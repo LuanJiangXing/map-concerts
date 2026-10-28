@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ea9a45"/>
+      <stop offset="1" stop-color="#b45f0a"/>
+    </linearGradient>
+  </defs>
+  <!-- 定位针(地图) -->
+  <path d="M32 4C18.7 4 8 14.7 8 28c0 16 22 32 24 32s24-16 24-32C56 14.7 45.3 4 32 4z" fill="url(#g)"/>
+  <!-- 双八分音符(演唱会) -->
+  <g fill="#fffdf8">
+    <circle cx="26.5" cy="40" r="5"/>
+    <circle cx="38.5" cy="36.5" r="5"/>
+    <rect x="29.5" y="17" width="3" height="21" rx="1.5"/>
+    <rect x="41.5" y="13.5" width="3" height="21" rx="1.5"/>
+    <path d="M30 19 44.5 15v4.2L30 23.2z"/>
+  </g>
+</svg>

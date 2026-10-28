@@ -1,0 +1,388 @@
+/* ============================================================
+   设计令牌 —— map-concerts.com 全站唯一视觉真源
+   ============================================================
+   S1(2026-09-10):把 style.css 里既有的硬编码值**原样**抽成令牌,
+   视觉与重构前逐像素一致。
+   S2(2026-09-10):换入「舞台夜场」主题。:root 即 dark(默认,
+   JS 完全不执行时也是正确主题);:root[data-theme="light"] 覆盖为
+   纸白 light。两套主题的令牌**定义集合完全相同**(见文件末尾
+   完整性说明),新语义请新增名字,勿复用旧名表达新含义:
+     - --accent-2  = 较暗琥珀(渐变第二停靠点 / 地图聚合点 / 数据条形)。
+     - --on-accent = 强调色作背景时的前景墨色(随主题一档切换)。
+     - --ink-bg    = 「永远是深色」的表面(地图 tip / 批量条)。
+   S4a(2026-09-10):追加与主题无关的视觉语言刻度(间距/圆角/阴影/
+   动效,见下方独立 :root 块);清除强调渐变与 --accent-halo(radial-halo)。
+   两套主题的**定义集合仍完全相同**(共享刻度块不计入主题差异)。
+
+   加载顺序:本文件必须先于 /css/style.css(6 个页面 <head> 已保证)。
+   主题切换:各页 <head> 的 /js/boot.js(外链,不能内联——生产 CSP script-src 'self')
+   在 tokens.css 之前恢复 data-theme。
+   ============================================================ */
+
+/* ============================================================
+   S3a(2026-09-10):自托管 Archivo(拉丁显示体)+ 字号阶梯
+   ------------------------------------------------------------
+   - 字体来源:Google Fonts css2 API 的 latin 子集 woff2(可变字重
+     400..700,单文件),自托管于 /fonts/archivo-latin.woff2(34,928B);
+     OFL 许可证随附 /fonts/Archivo-OFL.txt(再分发义务)。
+   - unicode-range 必须保留:浏览器据此判断 Archivo 不含中文字形,
+     直接回退系统中文栈,避免「逐字回退」的渲染开销与字形混排。
+   - 运行时零第三方请求(大陆用户不受影响)。
+   ============================================================ */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(/fonts/archivo-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  /* 文件实际可变轴为 400..800(fc-scan);声明 600..800 会把 400 字重的
+     .brand-en / .masthead__en / .directory__row-en / .fav-title 强制抬到 600。 */
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(/fonts/syne-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(/fonts/plusjakartasans.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- 字号阶梯(1.25 模数,正文 16px)----------
+   相邻级差全部 ≥1.25×:12→16=1.333,其余恰好 1.25。
+   注:design.md 显示值 1.9531rem / 2.4414rem 是截断近似,会让 31.25/25 落到
+   1.24998(<1.25)。此处写精确的 1.25 模数(1.953125rem=31.25px、
+   2.44140625rem=39.0625px),保证级差严格 ≥1.25。
+   style.css 只消费这 6 级,不得出现 font-size 字面量。 */
+:root {
+  --fs-xs: 0.75rem;       /* 12px    元信息 / 标签 / 时间戳 / 徽标 / 密集浮层(地图选择器) */
+  --fs-sm: 0.875rem;      /* 14px    次级正文 / 辅助控件 / 工具条输入框 */
+  --fs-base: 1rem;        /* 16px    正文与界面默认 */
+  --fs-lg: 1.25rem;       /* 20px    卡片 / 区块标题 */
+  --fs-xl: 1.5625rem;     /* 25px    统计数值 */
+  --fs-2xl: 1.953125rem;  /* 31.25px 页标题 / 品牌(窄屏) */
+  --fs-3xl: 2.44140625rem; /* 39.0625px 品牌 / 英雄字 */
+}
+
+/* ---------- 视觉语言刻度(S4a,与主题无关:只定义一次)----------
+   间距 4 基数 8 档;圆角 3 档 + 胶囊;阴影只承载几何(颜色由使用处拼
+   --shadow-* 族,随主题);动效 3 档 + 统一自然减速缓动。
+   S6(2026-09-10)死令牌复核:--sp-12(48px)与 --sh-3(深阴影)目前零消费,
+   但它们是**完整刻度的一档**(空档会破坏「间距/阴影成体系」这一前提),
+   按「尺度步骤,非语义死令牌」保留;DESIGN.md 的 Tokens 一节登记为保留档。
+   真正的语义死令牌(仅一个消费者、且消费者已被删除)已删除:--z-modal-2、--shadow-06。 */
+:root {
+  --sp-1: .25rem;  --sp-2: .5rem;   --sp-3: .75rem;  --sp-4: 1rem;
+  --sp-6: 1.5rem;  --sp-8: 2rem;    --sp-12: 3rem;   --sp-16: 4rem;
+
+  --r-sm: 6px;  --r-md: 10px;  --r-lg: 14px;  --r-pill: 999px;
+
+  --sh-1: 0 1px 2px;  --sh-2: 0 4px 12px;  --sh-3: 0 12px 32px;
+
+  --dur-1: 120ms;  --dur-2: 200ms;  --dur-3: 400ms;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ---------- dark(舞台夜场)= 默认主题 ---------- */
+:root {
+  color-scheme: dark;
+
+  /* ---------- 底色 / 面 ---------- */
+  --bg: #14161d;
+  --panel: #1c1f28;
+  --panel-2: #232733;
+  --border: #2e3340;
+  --water: #0f1117;
+  --white: #fff;
+
+  /* ---------- 文字 ---------- */
+  --text: #e8e6e1;
+  --muted: #9aa0ad;
+
+  /* ---------- 强调 / 链接 ---------- */
+  --accent: #ff8a3d;
+  --accent-2: #f0863a;
+  --accent-deep: #ffb27a;
+  --link: #ffb27a;
+
+  /* ---------- 新增语义(S2)----------
+     --on-accent:强调色作底时的前景墨色。
+       dark 的 --accent 是亮橙,用深墨(#14161d on #ff8a3d ≈ 7.7:1);
+       light 的 --accent 是暗琥珀,改用白(#fff on #a04a18 ≈ 6.0:1)。
+     --ink-bg:「永远是深色」的表面(地图 tip / 审核批量条)。
+     注:S4a 未采用 design.md §2.1 的冷蓝 --link-cold(全站无真实消费点,
+     已删除);日后如需冷蓝链接/数据色,再以更准的语义名引入。 */
+  --on-accent: #14161d;
+  --ink-bg: #2b3038;
+
+  /* ---------- 渐变(仅封面占位保留)----------
+     S4a 已清除强调渐变(--grad-accent/-brand/-avatar):强调色只服务
+     主行动与当前选中态,不做装饰性渐变。 */
+  --grad-cover-ph: linear-gradient(160deg, #232733, #191c25);
+
+  /* ---------- 边框变体 ---------- */
+  --border-hover: #3d4453;
+  --border-link: #4a4f5e;
+  --border-soft: #343a47;
+  --border-warm: #333846;
+
+  /* ---------- 语义状态 ---------- */
+  --danger: #f87171;
+  --danger-strong: #fca5a5;
+  --danger-border: #5c2b2b;
+  --danger-focus: rgba(248, 113, 113, 0.40);
+  --ok: #4ade80;
+  --star: #fbbf24;
+  --star-wash: rgba(251, 191, 36, 0.16);
+  --star-wash-strong: rgba(251, 191, 36, 0.24);
+
+  /* ---------- 状态徽标(待审 / 通过 / 驳回 / 草稿)---------- */
+  --status-pending-bg: #3a2f14;
+  --status-pending-fg: #fbbf24;
+  --status-pending-border: #57451c;
+  --status-approved-bg: #16301f;
+  --status-approved-fg: #4ade80;
+  --status-approved-border: #255036;
+  --status-rejected-bg: #3a1f1f;
+  --status-rejected-border: #5c2b2b;
+  --status-draft-bg: #1b2436;
+  --status-draft-fg: #7cc0ff;
+  --status-draft-border: #2d3d5c;
+
+  /* ---------- 角色徽标(admin)---------- */
+  --role-admin-bg: #3a2a12;
+  --role-admin-fg: #ffb27a;
+  --role-admin-border: #57401f;
+
+  /* ---------- 反馈 banner / 歌曲闪存 ---------- */
+  --flash-bg: #33291a;
+  --flash-border: #57451c;
+
+  /* ---------- 视频封面占位 ---------- */
+  --ph-fg: #9aa0ad;
+  --ph-thumb: #262b38;
+
+  /* ---------- 地图 SVG 专用(仅填充/描边,与 JS 无耦合)----------
+     豁免登记:S6 写入 DESIGN.md。地图国界/省界描边走 --panel / --muted。 */
+  --map-land: #262a36;
+  --map-land-data: #b5651d;
+  --dot-stroke: rgba(20, 22, 29, 0.90);
+
+  /* ---------- 阴影墨色(dark 走黑,rgba 0,0,0)---------- */
+  --shadow-12: rgba(0, 0, 0, 0.36);
+  --shadow-18: rgba(0, 0, 0, 0.44);
+  --shadow-25: rgba(0, 0, 0, 0.52);
+  --shadow-28: rgba(0, 0, 0, 0.56);
+  --shadow-bar: rgba(0, 0, 0, 0.60);
+  /* 中性黑阴影(非彩色光晕):dark 下彩色 box-shadow 会命中 dark-glow,
+     design.md §10 明确禁止;强调色只用于主行动按钮的底色,不做辉光。 */
+  --shadow-btn: rgba(0, 0, 0, 0.45);
+  --shadow-black-05: rgba(0, 0, 0, 0.20);
+  --shadow-black-12: rgba(0, 0, 0, 0.30);
+  --shadow-black-18: rgba(0, 0, 0, 0.40);
+  /* 弹窗遮罩(dark):由 .62 加深到 .78,让浮层与页底分离更明确
+     (合成后遮罩 ~#040506 vs 页底 #14161d)。注意:两者同为深色,该比值物理上限
+     仅 ~1.16:1(页底本身已很暗),故 dark 下卡片边界主要靠 1px 边框而非亮度差。 */
+  --backdrop: rgba(0, 0, 0, 0.78);
+
+  /* ---------- 强调洗色 / 焦点环(无 radial-halo:S4a 已移除光晕)---------- */
+  --accent-wash-faint: rgba(255, 138, 61, 0.08);
+  --accent-wash-soft: rgba(255, 138, 61, 0.10);
+  --accent-wash: rgba(255, 138, 61, 0.14);
+  --accent-wash-strong: rgba(255, 138, 61, 0.20);
+  /* 焦点环:用不透明 --accent 实色,不用半透明洗色。
+     半透明环合成后会随背景变淡(light 下 rgba(207,111,20,.45) 合成仅 ~1.7:1),
+     达不到 R7 要求的 3:1;实色环 vs 页底 dark≈7.7:1 / light≈5.7:1。 */
+  --focus-ring: var(--accent);
+
+  /* 年份条「无演出年份」刻度(S4b):属可辨识图形,需 ≥3:1 非文本对比度。
+     由页面底色的蓝相提亮而来(非纯灰);on --bg #14161d ≈ 3.3:1。 */
+  --yearbar-empty: #636a78;
+
+  /* ---------- 深底 ghost(批量操作条)---------- */
+  --ghost-bg: rgba(255, 255, 255, 0.12);
+  --ghost-bg-hover: rgba(255, 255, 255, 0.20);
+  --ghost-bg-active: rgba(255, 255, 255, 0.28);
+  --ghost-border: rgba(255, 255, 255, 0.35);
+
+  /* ---------- 次级 ghost 按钮 hover/active 底色 ---------- */
+  --ghost-hover-bg: #2c3140;
+  --ghost-active-bg: #343a4a;
+
+  /* ---------- reaction 按钮边框 ---------- */
+  --rt-hover-border: #3d4453;
+  --rt-on-border: #b5651d;
+
+  /* ---------- 字体栈(升级:Plus Jakarta Sans 现代几何体主导 + Syne 艺术西文回退 + 中文平滑)----------
+     --font-body    中文/通用界面 → Plus Jakarta Sans (现代几何拉丁) + 系统高质中文栈
+     --font-display 品牌/标题/歌手名/演出名 → Plus Jakarta Sans (自然饱满字形) + 中文平滑
+     --font-data    年份/日期/坐标/统计 → Plus Jakarta Sans 纯正等比/等宽几何数字
+     --font-mono    保留给真正的代码 / URL 场景。 */
+  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --font-data: "Plus Jakarta Sans", "Archivo", var(--font-body);
+
+  /* ---------- 层级(现值)---------- */
+  --z-tip: 5;
+  --z-zoom: 20;
+  --z-picker: 25;
+  --z-panel: 30;
+  --z-pop: 40;
+  --z-sticky: 50;
+  --z-modal: 100;
+}
+
+/* ---------- light(纸白)= 独立配色,不是 dark 的机械反转 ----------
+   关键:dark 的亮橙 --accent #ff8a3d 在纸白上只有 ~2.4:1,不可读;
+   light 必须另配一档暗琥珀 --accent #a04a18(白字 5.2:1)。
+   本块必须与 :root 定义**同一组令牌名**,一个不少(见完整性校验)。 */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* ---------- 底色 / 面 ---------- */
+  --bg: #faf8f4;
+  --panel: #ffffff;
+  --panel-2: #f2efe9;
+  --border: #ded8cd;
+  --water: #ece9df;
+  --white: #fff;
+
+  /* ---------- 文字 ---------- */
+  --text: #1a1d24;
+  --muted: #5c6470;
+
+  /* ---------- 强调 / 链接 ---------- */
+  --accent: #a04a18;
+  --accent-2: #8a3e12;
+  --accent-deep: #7a3510;
+  --link: #a04a18;
+  --on-accent: #fff;
+  --ink-bg: #2c2318;
+
+  /* ---------- 渐变(仅封面占位保留)---------- */
+  --grad-cover-ph: linear-gradient(160deg, #efe9da, #e3d9c3);
+
+  /* ---------- 边框变体 ---------- */
+  --border-hover: #c9b392;
+  --border-link: #d3b489;
+  --border-soft: #d8c7a2;
+  --border-warm: #e2d3b6;
+
+  /* ---------- 语义状态 ---------- */
+  --danger: #b3261e;
+  --danger-strong: #8f1a14;
+  --danger-border: #e0a8a2;
+  --danger-focus: rgba(179, 38, 30, 0.35);
+  --ok: #3f6b34;
+  --star: #8a6508;
+  --star-wash: rgba(217, 161, 11, 0.14);
+  --star-wash-strong: rgba(217, 161, 11, 0.20);
+
+  /* ---------- 状态徽标(待审 / 通过 / 驳回 / 草稿)---------- */
+  --status-pending-bg: #fff3d6;
+  --status-pending-fg: #8a5b00;
+  --status-pending-border: #e5c98a;
+  --status-approved-bg: #e8f3e2;
+  --status-approved-fg: #3f6b34;
+  --status-approved-border: #bcd6ab;
+  --status-rejected-bg: #fbe8e6;
+  --status-rejected-border: #e6b8b3;
+  --status-draft-bg: #e8edf7;
+  --status-draft-fg: #3d5a96;
+  --status-draft-border: #b6c6e2;
+
+  /* ---------- 角色徽标(admin)---------- */
+  --role-admin-bg: #fbe3cf;
+  --role-admin-fg: #9a5209;
+  --role-admin-border: #e6b98a;
+
+  /* ---------- 反馈 banner / 歌曲闪存 ---------- */
+  --flash-bg: #f4e6cf;
+  --flash-border: #e0cda6;
+
+  /* ---------- 视频封面占位 ---------- */
+  --ph-fg: #6b5f4a;
+  --ph-thumb: #ece5d5;
+
+  /* ---------- 地图 SVG 专用 ---------- */
+  --map-land: #d8cfbd;
+  --map-land-data: #e09a4e;
+  --dot-stroke: rgba(255, 255, 255, 0.92);
+
+  /* ---------- 阴影墨色(light 走暖棕,rgba 60,40,10)---------- */
+  --shadow-12: rgba(60, 40, 10, 0.12);
+  --shadow-18: rgba(60, 40, 10, 0.18);
+  --shadow-25: rgba(60, 40, 10, 0.25);
+  --shadow-28: rgba(60, 40, 10, 0.28);
+  --shadow-bar: rgba(44, 35, 24, 0.35);
+  --shadow-btn: rgba(180, 95, 10, 0.32);
+  --shadow-black-05: rgba(0, 0, 0, 0.05);
+  --shadow-black-12: rgba(0, 0, 0, 0.12);
+  --shadow-black-18: rgba(0, 0, 0, 0.18);
+  --backdrop: rgba(40, 30, 15, 0.42);
+
+  /* ---------- 强调洗色 / 焦点环(无 radial-halo:S4a 已移除光晕)---------- */
+  --accent-wash-faint: rgba(207, 111, 20, 0.07);
+  --accent-wash-soft: rgba(207, 111, 20, 0.08);
+  --accent-wash: rgba(207, 111, 20, 0.10);
+  --accent-wash-strong: rgba(207, 111, 20, 0.16);
+  /* 焦点环:实色 --accent(light=#a04a18),见 dark 块说明。 */
+  --focus-ring: var(--accent);
+
+  /* 年份条「无演出年份」刻度(light):dark 的 #636a78 在纸白上仅 ~1.9:1,
+     必须另配;暖调提亮,on --bg #faf8f4 ≈ 3.3:1。 */
+  --yearbar-empty: #948770;
+
+  /* ---------- 深底 ghost(批量操作条)---------- */
+  --ghost-bg: rgba(255, 255, 255, 0.12);
+  --ghost-bg-hover: rgba(255, 255, 255, 0.20);
+  --ghost-bg-active: rgba(255, 255, 255, 0.28);
+  --ghost-border: rgba(255, 255, 255, 0.35);
+
+  /* ---------- 次级 ghost 按钮 hover/active 底色 ---------- */
+  --ghost-hover-bg: #ddd0b6;
+  --ghost-active-bg: #d1c2a4;
+
+  /* ---------- reaction 按钮边框 ---------- */
+  --rt-hover-border: #d3c3a6;
+  --rt-on-border: #d8a253;
+
+  /* ---------- 字体栈(与 dark 一致)---------- */
+  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --font-data: "Plus Jakarta Sans", "Archivo", var(--font-body);
+
+  /* ---------- 层级 ---------- */
+  --z-tip: 5;
+  --z-zoom: 20;
+  --z-picker: 25;
+  --z-panel: 30;
+  --z-pop: 40;
+  --z-sticky: 50;
+  --z-modal: 100;
+}

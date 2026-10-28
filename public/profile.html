@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人中心 · 现场档案馆</title>
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<main class="wrap page">
+  <div id="auth-gate"></div>
+  <div id="profile-box" hidden>
+    <header class="profile-hero">
+      <div class="profile-hero__avatar-wrap">
+        <button type="button" class="profile-hero__avatar" id="avatar-btn" aria-label="更换头像" aria-expanded="false" aria-controls="avatar-panel" title="更换头像">
+          <span class="profile-hero__face" id="avatar-face"></span>
+          <span class="profile-hero__edit" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+        </button>
+        <div class="avatar-dropdown" id="avatar-panel" hidden>
+          <div class="avatar-dropdown__head">
+            <span class="avatar-dropdown__title">更换头像</span>
+            <button type="button" class="ghost-icon-btn avatar-upload-btn" id="avatar-upload-btn" title="从本地上传图片" aria-label="从本地上传图片">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </button>
+            <input type="file" id="avatar-file" accept="image/*" hidden>
+          </div>
+          <div class="avatar-picker" id="avatar-picker"></div>
+          <p class="profile-editor__msg" id="avatar-msg" hidden></p>
+        </div>
+      </div>
+      <div class="profile-hero__id">
+        <div class="profile-hero__head">
+          <h3 class="profile-hero__name" id="profile-name"></h3>
+          <span class="role-chip role-chip--admin" id="profile-role" hidden>管理员</span>
+        </div>
+        <p class="profile-hero__meta" id="profile-meta"></p>
+        <div class="profile-hero__actions">
+          <button type="button" class="ghost-icon-btn" id="account-btn" title="账号设置" aria-label="账号设置" aria-haspopup="dialog" aria-controls="account-modal">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5l.9-3.6L16.2 5.1a2.1 2.1 0 0 1 3 3L8.4 18.9l-3.9.6z"/><path d="M14.6 6.7l3 3"/></svg>
+          </button>
+          <a class="ghost-icon-btn" id="admin-link" href="/review" title="审核页" aria-label="审核页" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <button type="button" class="ghost-icon-btn" id="logout-btn" title="退出登录" aria-label="退出登录">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- 提交统计:与身份区同处一行(卡片右),各格自带标签;组名由 aria-label 承载 -->
+      <div class="stats-ledger stats-ledger--hero" id="stats-ledger" role="group" aria-label="提交统计"></div>
+    </header>
+
+    <!-- 账号设置:遮罩弹窗(复用全局 .modal* 语汇;开关逻辑在 profile.js,不加载 modal.js)。
+         用户名与密码同处一个弹窗,各自成组、各自提交。 -->
+    <div id="account-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="account-modal-title">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card">
+        <header class="modal-head">
+          <div>
+            <h2 id="account-modal-title">账号设置</h2>
+            <p class="modal-meta">用户名与密码</p>
+          </div>
+          <button id="account-close" class="modal-close" aria-label="关闭"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </header>
+        <div id="account-modal-body" class="modal-body">
+          <div class="profile-editor__group">
+            <p class="profile-editor__title">修改用户名</p>
+            <p class="profile-editor__hint">登录用户名,修改后全站生效;下次登录请使用新用户名。</p>
+            <label class="field"><span>新用户名(2-20 位汉字 / 字母 / 数字 / _ -)</span><input id="rename-name" class="input" autocomplete="username"></label>
+            <label class="field"><span>当前密码</span><input id="rename-pass" type="password" class="input" autocomplete="current-password"></label>
+            <div class="profile-editor__actions">
+              <button type="button" class="btn btn--sm" id="rename-save">保存</button>
+            </div>
+            <p class="profile-editor__msg" id="rename-msg" hidden></p>
+          </div>
+
+          <div class="profile-editor__group">
+            <p class="profile-editor__title">修改密码</p>
+            <p class="profile-editor__hint">修改成功后所有设备需重新登录。</p>
+            <label class="field"><span>旧密码</span><input id="pw-old" type="password" class="input" autocomplete="current-password"></label>
+            <label class="field"><span>新密码(至少 8 位)</span><input id="pw-new" type="password" class="input" autocomplete="new-password"></label>
+            <div class="profile-editor__actions">
+              <button type="button" class="btn btn--sm" id="pw-btn">修改密码</button>
+            </div>
+            <p class="profile-editor__msg" id="pw-msg" hidden></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="profile-zone" id="fav-zone">
+      <h3 class="profile-zone__title">我的收藏</h3>
+      <div class="fav-bar" id="fav-bar" hidden>
+        <!-- 搜索:复用歌手页的 .searchbox 语汇(放大镜 + 无框透明输入 + 圆形 ×)。
+             差异只有一处 —— 这里默认展开(搜索是收藏区的主功能),故放大镜是静态图标
+             而非 .searchbox__toggle 开关钮 -->
+        <div class="searchbox">
+          <span class="searchbox__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/></svg></span>
+          <input id="fav-search" class="searchbox__input" type="text" autocomplete="off" spellcheck="false" placeholder="搜索收藏(标题 / 城市 / 日期 / 类型 / 歌手)" aria-label="搜索我的收藏">
+          <button type="button" id="fav-search-clear" class="searchbox__clear" aria-label="清空搜索" hidden><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <p id="fav-count" class="fav-bar__count" role="status"></p>
+      </div>
+      <div id="fav-list"></div>
+      <nav id="fav-pager" class="fav-pager" aria-label="收藏分页" hidden>
+        <button type="button" id="fav-prev" class="btn btn--ghost btn--sm">上一页</button>
+        <span id="fav-page" class="fav-pager__pos"></span>
+        <button type="button" id="fav-next" class="btn btn--ghost btn--sm">下一页</button>
+      </nav>
+    </section>
+  </div>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/dialog.js"></script>
+<script src="/js/avatars.js"></script>
+<script src="/js/portrait-upload.js"></script>
+<script src="/js/profile.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+</html>

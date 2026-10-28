@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>审核 · 现场档案馆</title>
+<link rel="icon" href="/favicon.svg">
+<script src="/js/boot.js"></script>
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- chrome:nav -->
+<nav class="topnav"><div class="wrap">
+  <a class="topnav__brand" href="/">现场档案馆</a>
+  <span class="topnav__links">
+    <a href="/submit">提交演出</a>
+    <a href="/my-submissions">我的提交</a>
+    <span id="auth-link"></span>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="切换到日间主题" aria-pressed="false" title="切换到日间主题"><svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </span>
+</div></nav>
+<!-- /chrome:nav -->
+
+<main class="wrap page">
+  <h2 class="page-title">审核</h2>
+  <div id="admin-gate"></div>
+  <div id="review-box" hidden>
+    <div class="review-tabs" id="review-tabs" role="tablist">
+      <button type="button" data-module="submissions" class="review-tab active" role="tab">演出提交</button>
+      <button type="button" data-module="users" class="review-tab" role="tab">用户</button>
+      <button type="button" data-module="tags" class="review-tab" role="tab">标签管理</button>
+      <button type="button" data-module="songs" class="review-tab" role="tab">歌曲</button>
+      <button type="button" data-module="singers" class="review-tab" role="tab">歌手</button>
+      <button type="button" data-module="intros" class="review-tab" role="tab">微简介</button>
+      <button type="button" data-module="stats" class="review-tab" role="tab">统计</button>
+      <button type="button" data-module="analytics" class="review-tab" role="tab">访问分析</button>
+      <button type="button" data-module="audit" class="review-tab" role="tab">审计</button>
+    </div>
+    <!-- 演出提交栏目内:状态分段 + 歌手筛选(2026-09-07) -->
+    <div class="review-subbar" id="review-subbar" hidden>
+      <div class="review-status" id="review-status" role="tablist" aria-label="提交状态">
+        <button type="button" data-status="pending" class="review-status__seg active" role="tab">待审核</button>
+        <button type="button" data-status="rejected" class="review-status__seg" role="tab">已驳回</button>
+        <button type="button" data-status="approved" class="review-status__seg" role="tab">已通过</button>
+        <button type="button" data-status="trash" class="review-status__seg" role="tab">回收站</button>
+      </div>
+      <label class="review-singer"><span>歌手</span>
+        <select id="review-singer" class="input"><option value="">全部歌手</option></select>
+      </label>
+    </div>
+    <div class="review-toolbar">
+      <label id="review-selall" class="batch-select-all" hidden>
+        <input type="checkbox" id="review-selall-cb"> 全选当前列表
+      </label>
+      <button type="button" class="btn btn--ghost btn--sm" id="review-reload-btn" title="重新加载当前模块数据"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align:-2px"><path d="M20.49 15a9 9 0 1 1-2.12-9.36"/><polyline points="23 4 23 10 17 10"/></svg> 刷新</button>
+    </div>
+    <div id="review-list"></div>
+    <div id="tag-manager" hidden></div>
+    <div id="song-manager" hidden></div>
+    <div id="singer-manager" hidden></div>
+    <div id="stats-panel" hidden></div>
+    <div id="analytics-panel" hidden>
+      <div class="analytics-head">
+        <label class="analytics-head__label" for="analytics-range">范围</label>
+        <select id="analytics-range" class="input analytics-head__select">
+          <option value="7d">近 7 天</option>
+          <option value="30d" selected>近 30 天</option>
+          <option value="90d">近 90 天</option>
+          <option value="all">全部</option>
+        </select>
+      </div>
+      <div id="analytics-body"></div>
+    </div>
+    <div id="audit-box" hidden></div>
+    <div id="review-batch-bar" class="review-batch-bar" hidden>
+      <span class="review-batch-bar__count" id="review-batch-count">0 条已选</span>
+      <button type="button" class="btn btn--sm" id="review-batch-approve">通过所选</button>
+      <button type="button" class="btn btn--ghost btn--sm review-batch-bar__ghost" id="review-batch-reject">驳回所选</button>
+      <button type="button" class="btn btn--ghost btn--sm review-batch-bar__ghost" id="review-batch-clear">清除</button>
+    </div>
+  </div>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/dialog.js"></script>
+<script src="/js/track-time.js"></script>
+<script src="/js/portrait-upload.js"></script>
+<script src="/js/charts.js"></script>
+<script src="/js/review.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+</html>

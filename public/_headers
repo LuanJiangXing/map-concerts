@@ -1,0 +1,30 @@
+# 静态缓存头(Cloudflare Workers Assets _headers,run_worker_first 下仍生效)
+# 说明:
+#  - 此文件在 assets 目录(public/)内,由 CF 资产服务在响应上应用;Worker 的 withSecurityHeaders
+#    只覆写安全头(nosniff/XFO/CSP/Referrer-Policy/HSTS),不动 Cache-Control,二者不冲突。
+#  - 之前全部静态资源默认 `max-age=0, must-revalidate` → 每次访问逐文件条件请求往返,
+#    跨境(国内)链路尤其吃亏。此处按可版本缓存性分级:
+#      /js/* /css/*  短 TTL(10min):改代码后陈旧窗口 ≤10min,部署后旧文件最迟 10min 过期。
+#      /images/* /favicon.svg  immutable 1 天:世界底图/头像等少变;若日后改 world.svg 需 CF 面板 purge;
+#      站内头像(/images/avatars/*)内容替换时不必 purge——同步把 home.js & review.js 的 AVATAR_REV +1
+#      使 URL 变化即强制重取(immutable 下同 URL 硬刷新也不重取)。
+#      /fonts/*  immutable 1 天(S3a 2026-09-10):Archivo latin 子集 34KB,是首屏会请求的
+#      静态二进制且几乎不变;此前不匹配任何规则 → CF 默认 max-age=0,每次访问都条件请求往返。
+#      取 1 天而非 1 年:路径固定(archivo-latin.woff2),若日后在同一路径替换字体文件,
+#      immutable 下同 URL 不会重取,故用 1 天给替换留一个自动过期窗口(改文件名则立即生效)。
+#  - HTML 与其余路径不匹配 → 维持 CF 默认 max-age=0 再验证(登录态/数据页绝不缓存)。
+
+/js/*
+  Cache-Control: public, max-age=600
+
+/css/*
+  Cache-Control: public, max-age=600
+
+/images/*
+  Cache-Control: public, max-age=86400, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=86400, immutable
+
+/favicon.svg
+  Cache-Control: public, max-age=86400, immutable
